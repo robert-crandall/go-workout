@@ -14,17 +14,17 @@ func FSL531(week int) Set {
 	repsList := []int{}
 	percentageList := []float64{}
 
-	var percent float64
+	var percentage float64
 
 	switch week {
 	case 1:
-		percent = 0.70
+		percentage = 0.70
 	case 2:
-		percent = 0.725
+		percentage = 0.725
 	case 3:
-		percent = 0.75
+		percentage = 0.75
 	case 4:
-		percent = 0.60
+		percentage = 0.60
 	}
 
 	reps := 5
@@ -32,12 +32,12 @@ func FSL531(week int) Set {
 
 	for i := 0; i < sets; i++ {
 		repsList = append(repsList, reps)
-		percentageList = append(percentageList, percent)
+		percentageList = append(percentageList, percentage)
 	}
 
 	return Set{
 		repsList:        repsList,
-		percentageList:  percentageList,
+		percentageList:  truncateNumList(percentageList),
 		lastSetsIsAMRAP: false,
 	}
 }
@@ -68,7 +68,87 @@ func Main531(week int) Set {
 
 	return Set{
 		repsList:        repsList,
-		percentageList:  percentageList,
+		percentageList:  truncateNumList(percentageList),
 		lastSetsIsAMRAP: lastSetIsAmrap,
 	}
+}
+
+// RPTIncreaseWeight returns a Reverse Pyramid Exercise, starting at 80%, with more weight for 3 weeks, then deload
+// Lower is 4/6/8 reps
+// Upper is 6/8/10 reps
+// Increment applies after a cycle is complete
+func RPTIncreaseWeight(week int, upper bool) Set {
+
+	repsList := []int{}
+	percentageList := []float64{}
+
+	var base, rptExtraReps int
+	var startingPercentage, weightDecrement, weeklyWeightIncrease float64
+
+	// How much weight to add for next weeks
+	weeklyWeightIncrease = 0.025
+
+	if upper {
+		base = 6
+		rptExtraReps = 2
+		startingPercentage = 0.80 // Based on 1RM tables for 8 reps
+		weightDecrement = 0.05    // What percentage to decrease
+	} else {
+		base = 4
+		rptExtraReps = 1
+		startingPercentage = 0.85 // Based on 1RM tables for 6 reps
+		weightDecrement = 0.05
+	}
+
+	// Last week - take it easy
+	if week == 4 {
+		startingPercentage = 0.65
+		weeklyWeightIncrease = 0.0
+	}
+
+	// Each week, starting percentage is increased by weeklyWeightIncrease
+	startingPercentage = startingPercentage + (weeklyWeightIncrease * float64(week-1))
+
+	repsList = []int{base, base + rptExtraReps, base + (rptExtraReps * 2)}
+	percentageList = []float64{startingPercentage, startingPercentage - weightDecrement, startingPercentage - (weightDecrement * 2)}
+
+	return Set{
+		repsList:        repsList,
+		percentageList:  truncateNumList(percentageList),
+		lastSetsIsAMRAP: false,
+	}
+}
+
+// StaticSets returns an Xx5 exercise at a given percentage
+// Week 4 is a deload week
+func StaticSets(week, sets int, percentage float64) Set {
+
+	repsList := []int{}
+	percentageList := []float64{}
+
+	// Last week - take it easy
+	if week == 4 {
+		percentage = 0.65
+	}
+
+	reps := 5
+
+	for i := 0; i < sets; i++ {
+		repsList = append(repsList, reps)
+		percentageList = append(percentageList, percentage)
+	}
+
+	return Set{
+		repsList:        repsList,
+		percentageList:  truncateNumList(percentageList),
+		lastSetsIsAMRAP: false,
+	}
+}
+
+// truncateNumList is a helper function to round all floats to 3 decimal places
+func truncateNumList(numList []float64) (result []float64) {
+	for _, v := range numList {
+		result = append(result, float64(int(v*1000))/1000)
+	}
+	return
 }

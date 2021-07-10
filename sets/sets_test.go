@@ -88,4 +88,76 @@ var _ = Describe("FSL531", func() {
 			})
 		})
 	})
+
+	Describe("With a StaticSets session", func() {
+		Context("First week", func() {
+			session := StaticSets(1, 5, 0.75)
+			expectedRepsList = []int{5, 5, 5, 5, 5}
+			expectedPercentageList = []float64{0.75, 0.75, 0.75, 0.75, 0.75}
+
+			expectedSets := Set{
+				repsList:        expectedRepsList,
+				weightsLBList:   nil,
+				percentageList:  expectedPercentageList,
+				lastSetsIsAMRAP: false,
+			}
+
+			It("should be a 5x5 at 75%", func() {
+				Expect(session).To(Equal(expectedSets))
+			})
+		})
+
+		Context("Fourth week", func() {
+			session := StaticSets(4, 5, 0.75)
+			expectedRepsList = []int{5, 5, 5, 5, 5}
+			expectedPercentageList = []float64{0.65, 0.65, 0.65, 0.65, 0.65}
+
+			expectedSets := Set{
+				repsList:        expectedRepsList,
+				weightsLBList:   nil,
+				percentageList:  expectedPercentageList,
+				lastSetsIsAMRAP: false,
+			}
+
+			It("should be a 5x5 at 65%", func() {
+				Expect(session).To(Equal(expectedSets))
+			})
+		})
+	})
+
+	Describe("With an RPTIncreaseWeight session", func() {
+		Context("First week upper", func() {
+			session := RPTIncreaseWeight(1, true)
+			expectedRepsList = []int{6, 8, 10}
+			expectedPercentageList = []float64{0.80, 0.75, 0.70}
+
+			expectedSets := Set{
+				repsList:        expectedRepsList,
+				weightsLBList:   nil,
+				percentageList:  expectedPercentageList,
+				lastSetsIsAMRAP: false,
+			}
+
+			It("should be an RPT set", func() {
+				Expect(session).To(Equal(expectedSets))
+			})
+		})
+
+		Context("Third week lower", func() {
+			session := RPTIncreaseWeight(3, false)
+			expectedRepsList = []int{4, 5, 6}
+			expectedPercentageList = []float64{0.90, 0.85, 0.80}
+
+			expectedSets := Set{
+				repsList:        expectedRepsList,
+				weightsLBList:   nil,
+				percentageList:  expectedPercentageList,
+				lastSetsIsAMRAP: false,
+			}
+
+			It("should be an RPT set", func() {
+				Expect(session).To(Equal(expectedSets))
+			})
+		})
+	})
 })
