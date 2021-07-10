@@ -1,10 +1,10 @@
 package sets
 
 type Set struct {
-	repsList        []int
-	weightsLBList   []int     // For weight based lifts
-	percentageList  []float64 // For percentage based lifts
-	lastSetsIsAMRAP bool      // Last set is As Many Reps as Possible
+	RepsList        []int
+	WeightsLBList   []int     // For weight based lifts
+	PercentageList  []float64 // For percentage based lifts
+	LastSetsIsAMRAP bool      // Last set is As Many Reps as Possible
 }
 
 // FSL531 returns a 5x5 Set matching Wendler's 531 First Set Last program
@@ -36,9 +36,9 @@ func FSL531(week int) Set {
 	}
 
 	return Set{
-		repsList:        repsList,
-		percentageList:  truncateNumList(percentageList),
-		lastSetsIsAMRAP: false,
+		RepsList:        repsList,
+		PercentageList:  truncateNumList(percentageList),
+		LastSetsIsAMRAP: false,
 	}
 }
 
@@ -67,9 +67,9 @@ func Main531(week int) Set {
 	}
 
 	return Set{
-		repsList:        repsList,
-		percentageList:  truncateNumList(percentageList),
-		lastSetsIsAMRAP: lastSetIsAmrap,
+		RepsList:        repsList,
+		PercentageList:  truncateNumList(percentageList),
+		LastSetsIsAMRAP: lastSetIsAmrap,
 	}
 }
 
@@ -113,9 +113,9 @@ func RPTIncreaseWeight(week int, upper bool) Set {
 	percentageList = []float64{startingPercentage, startingPercentage - weightDecrement, startingPercentage - (weightDecrement * 2)}
 
 	return Set{
-		repsList:        repsList,
-		percentageList:  truncateNumList(percentageList),
-		lastSetsIsAMRAP: false,
+		RepsList:        repsList,
+		PercentageList:  truncateNumList(percentageList),
+		LastSetsIsAMRAP: false,
 	}
 }
 
@@ -139,9 +139,29 @@ func StaticSets(week, sets int, percentage float64) Set {
 	}
 
 	return Set{
-		repsList:        repsList,
-		percentageList:  truncateNumList(percentageList),
-		lastSetsIsAMRAP: false,
+		RepsList:        repsList,
+		PercentageList:  truncateNumList(percentageList),
+		LastSetsIsAMRAP: false,
+	}
+}
+
+// StaticSetsIncreaseReps returns a sets x reps Exercise at 100%
+// Reps are increased by increase for every set
+func StaticSetsIncreaseReps(sets, reps, increase int) Set {
+
+	repsList := []int{}
+	percentageList := []float64{}
+
+	for i := 0; i < sets; i++ {
+		rep := reps + (i * increase)
+		repsList = append(repsList, rep)
+		percentageList = append(percentageList, 1.0)
+	}
+
+	return Set{
+		RepsList:        repsList,
+		PercentageList:  truncateNumList(percentageList),
+		LastSetsIsAMRAP: false,
 	}
 }
 

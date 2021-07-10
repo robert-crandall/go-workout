@@ -24,10 +24,10 @@ var _ = Describe("FSL531", func() {
 			expectedPercentageList = []float64{0.7, 0.7, 0.7, 0.7, 0.7}
 
 			expectedSets := Set{
-				repsList:        expectedRepsList,
-				weightsLBList:   nil,
-				percentageList:  expectedPercentageList,
-				lastSetsIsAMRAP: false,
+				RepsList:        expectedRepsList,
+				WeightsLBList:   nil,
+				PercentageList:  expectedPercentageList,
+				LastSetsIsAMRAP: false,
 			}
 
 			It("should be a 5x5 at 70%", func() {
@@ -41,10 +41,10 @@ var _ = Describe("FSL531", func() {
 			expectedPercentageList = []float64{0.725, 0.725, 0.725, 0.725, 0.725}
 
 			expectedSets := Set{
-				repsList:        expectedRepsList,
-				weightsLBList:   nil,
-				percentageList:  expectedPercentageList,
-				lastSetsIsAMRAP: false,
+				RepsList:        expectedRepsList,
+				WeightsLBList:   nil,
+				PercentageList:  expectedPercentageList,
+				LastSetsIsAMRAP: false,
 			}
 
 			It("should be a 5x5 at 72.5%", func() {
@@ -60,10 +60,10 @@ var _ = Describe("FSL531", func() {
 			expectedPercentageList = []float64{0.65, 0.75, 0.85}
 
 			expectedSets := Set{
-				repsList:        expectedRepsList,
-				weightsLBList:   nil,
-				percentageList:  expectedPercentageList,
-				lastSetsIsAMRAP: false,
+				RepsList:        expectedRepsList,
+				WeightsLBList:   nil,
+				PercentageList:  expectedPercentageList,
+				LastSetsIsAMRAP: false,
 			}
 
 			It("should be a 3x5 starting at 65%", func() {
@@ -77,10 +77,10 @@ var _ = Describe("FSL531", func() {
 			expectedPercentageList = []float64{0.70, 0.80, 0.90}
 
 			expectedSets := Set{
-				repsList:        expectedRepsList,
-				weightsLBList:   nil,
-				percentageList:  expectedPercentageList,
-				lastSetsIsAMRAP: false,
+				RepsList:        expectedRepsList,
+				WeightsLBList:   nil,
+				PercentageList:  expectedPercentageList,
+				LastSetsIsAMRAP: false,
 			}
 
 			It("should be a 3x5 starting at 70%", func() {
@@ -96,10 +96,10 @@ var _ = Describe("FSL531", func() {
 			expectedPercentageList = []float64{0.75, 0.75, 0.75, 0.75, 0.75}
 
 			expectedSets := Set{
-				repsList:        expectedRepsList,
-				weightsLBList:   nil,
-				percentageList:  expectedPercentageList,
-				lastSetsIsAMRAP: false,
+				RepsList:        expectedRepsList,
+				WeightsLBList:   nil,
+				PercentageList:  expectedPercentageList,
+				LastSetsIsAMRAP: false,
 			}
 
 			It("should be a 5x5 at 75%", func() {
@@ -113,10 +113,10 @@ var _ = Describe("FSL531", func() {
 			expectedPercentageList = []float64{0.65, 0.65, 0.65, 0.65, 0.65}
 
 			expectedSets := Set{
-				repsList:        expectedRepsList,
-				weightsLBList:   nil,
-				percentageList:  expectedPercentageList,
-				lastSetsIsAMRAP: false,
+				RepsList:        expectedRepsList,
+				WeightsLBList:   nil,
+				PercentageList:  expectedPercentageList,
+				LastSetsIsAMRAP: false,
 			}
 
 			It("should be a 5x5 at 65%", func() {
@@ -132,10 +132,10 @@ var _ = Describe("FSL531", func() {
 			expectedPercentageList = []float64{0.80, 0.75, 0.70}
 
 			expectedSets := Set{
-				repsList:        expectedRepsList,
-				weightsLBList:   nil,
-				percentageList:  expectedPercentageList,
-				lastSetsIsAMRAP: false,
+				RepsList:        expectedRepsList,
+				WeightsLBList:   nil,
+				PercentageList:  expectedPercentageList,
+				LastSetsIsAMRAP: false,
 			}
 
 			It("should be an RPT set", func() {
@@ -149,13 +149,32 @@ var _ = Describe("FSL531", func() {
 			expectedPercentageList = []float64{0.90, 0.85, 0.80}
 
 			expectedSets := Set{
-				repsList:        expectedRepsList,
-				weightsLBList:   nil,
-				percentageList:  expectedPercentageList,
-				lastSetsIsAMRAP: false,
+				RepsList:        expectedRepsList,
+				WeightsLBList:   nil,
+				PercentageList:  expectedPercentageList,
+				LastSetsIsAMRAP: false,
 			}
 
 			It("should be an RPT set", func() {
+				Expect(session).To(Equal(expectedSets))
+			})
+		})
+	})
+
+	Describe("With a StaticSetsIncreaseReps session", func() {
+		Context("First week", func() {
+			session := StaticSetsIncreaseReps(3, 6, 3)
+			expectedRepsList = []int{6, 9, 12}
+			expectedPercentageList = []float64{1, 1, 1}
+
+			expectedSets := Set{
+				RepsList:        expectedRepsList,
+				WeightsLBList:   nil,
+				PercentageList:  expectedPercentageList,
+				LastSetsIsAMRAP: false,
+			}
+
+			It("should match expected result", func() {
 				Expect(session).To(Equal(expectedSets))
 			})
 		})
