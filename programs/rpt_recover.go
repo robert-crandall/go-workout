@@ -21,29 +21,91 @@ func recover_rpt() Program {
 
 		// RPT Bench Day
 		dayNames = append(dayNames, fmt.Sprintf("Bench RPT %d", weeknum))
-		DaysList = append(DaysList, []workout{{
-			Lift:          lifts.Bench(),
-			Set:           sets.RPTIncreaseWeight(weeknum, true),
-			ExerciseType:  ExerciseTypeWendlerMainLift,
-			IncrementType: IncrementTypeYes,
-		},
+		DaysList = append(DaysList, []workout{
+			{
+				Lift:          lifts.Bench(),
+				Set:           sets.RPTIncreaseWeight(weeknum, lifts.Bench().Target),
+				IncrementType: IncrementWeightsProgramComplete,
+			},
 			{
 				Lift:          lifts.Pushup(),
-				Set:           sets.StaticSetsIncreaseReps(3, 6, 2),
-				ExerciseType:  ExerciseTypeWendlerMainLift,
-				IncrementType: IncrementTypeYes,
+				Set:           sets.StaticSetsIncreaseReps(3, 8, 2),
+				IncrementType: IncrementWeightsProgramComplete,
 			},
 		})
 
-		// Squat Day
-		dayNames = append(dayNames, fmt.Sprintf("TEST Squat RPT %d", weeknum))
-		DaysList = append(DaysList, []workout{{
-			Lift: lifts.Squat(),
-			Set:  sets.RPTIncreaseWeight(weeknum, true),
-		},
+		// RPT Squat Day, Heavy OHP
+		dayNames = append(dayNames, fmt.Sprintf("Squat RPT %d", weeknum))
+		DaysList = append(DaysList, []workout{
 			{
-				Lift: lifts.Ohp(),
-				Set:  sets.StaticSetsIncreaseReps(3, 6, 2),
+				Lift:          lifts.Squat(),
+				Set:           sets.StaticSets(weeknum, 3, 1),
+				IncrementType: IncrementWeightsPerSession,
+			},
+			{
+				Lift:          lifts.Ohp(),
+				Set:           sets.StaticSets(weeknum, 3, 0.85),
+				IncrementType: IncrementWeightsProgramComplete,
+			},
+		})
+
+		// Heavy DL Day
+		dayNames = append(dayNames, fmt.Sprintf("Deadlift Heavy %d", weeknum))
+		DaysList = append(DaysList, []workout{
+			{
+				Lift:          lifts.Deadlift(),
+				Set:           sets.RPTIncreaseWeight(weeknum, lifts.Deadlift().Target),
+				IncrementType: IncrementWeightsProgramComplete,
+			},
+			{
+				Lift:          lifts.Chipup(),
+				Set:           sets.StaticSetsIncreaseReps(3, 5, 1),
+				IncrementType: IncrementWeightsProgramComplete,
+			},
+		})
+
+		// Heavy Bench Day
+		dayNames = append(dayNames, fmt.Sprintf("Bench Heavy %d", weeknum))
+		DaysList = append(DaysList, []workout{
+			{
+				Lift:          lifts.Bench(),
+				Set:           sets.StaticSets(weeknum, 3, 0.85),
+				IncrementType: IncrementWeightsProgramComplete,
+			},
+			{
+				Lift:          lifts.Bench(),
+				Set:           sets.FSL531(weeknum),
+				IncrementType: IncrementWeightsOff,
+			},
+		})
+
+		// Heavy Squat Day, RPT OHP
+		dayNames = append(dayNames, fmt.Sprintf("Squat Heavy %d", weeknum))
+		DaysList = append(DaysList, []workout{
+			{
+				Lift:          lifts.Squat(),
+				Set:           sets.StaticSets(weeknum, 3, 1),
+				IncrementType: IncrementWeightsPerSession,
+			},
+			{
+				Lift:          lifts.Ohp(),
+				Set:           sets.RPTIncreaseWeight(weeknum, lifts.Ohp().Target),
+				IncrementType: IncrementWeightsProgramComplete,
+			},
+		})
+
+		// Heavy Hip Thrust Day
+		dayNames = append(dayNames, fmt.Sprintf("Hip Thrust Heavy %d", weeknum))
+		DaysList = append(DaysList, []workout{
+			{
+				Lift:          lifts.HipThrust(),
+				Set:           sets.RPTIncreaseWeight(weeknum, lifts.HipThrust().Target),
+				IncrementType: IncrementWeightsProgramComplete,
+			},
+			{
+				Lift:          lifts.Pullup(),
+				Set:           sets.StaticSetsIncreaseReps(3, 5, 1),
+				IncrementType: IncrementWeightsProgramComplete,
 			},
 		})
 
@@ -52,9 +114,9 @@ func recover_rpt() Program {
 	}
 
 	program := Program{
-		Name:        "RPT 21.07",
+		Name:        "RPT 21.06",
 		Explanation: "RPT with Squat Recovery",
-		DaysPerWeek: 2,
+		DaysPerWeek: 6,
 		Weeks:       4,
 		Export:      true,
 		Routine:     routine,

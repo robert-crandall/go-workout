@@ -1,10 +1,16 @@
 package sets
 
+import (
+	"main/lifts"
+	"math"
+)
+
 type Set struct {
 	RepsList        []int
 	WeightsLBList   []int     // For weight based lifts
 	PercentageList  []float64 // For percentage based lifts
 	LastSetsIsAMRAP bool      // Last set is As Many Reps as Possible
+	RestTimeSeconds int       // Time between sets
 }
 
 // FSL531 returns a 5x5 Set matching Wendler's 531 First Set Last program
@@ -13,6 +19,7 @@ func FSL531(week int) Set {
 
 	repsList := []int{}
 	percentageList := []float64{}
+	restTimeSeconds := 60
 
 	var percentage float64
 
@@ -39,6 +46,7 @@ func FSL531(week int) Set {
 		RepsList:        repsList,
 		PercentageList:  truncateNumList(percentageList),
 		LastSetsIsAMRAP: false,
+		RestTimeSeconds: restTimeSeconds,
 	}
 }
 
@@ -70,14 +78,14 @@ func Main531(week int) Set {
 		RepsList:        repsList,
 		PercentageList:  truncateNumList(percentageList),
 		LastSetsIsAMRAP: lastSetIsAmrap,
+		RestTimeSeconds: 90,
 	}
 }
 
 // RPTIncreaseWeight returns a Reverse Pyramid Exercise, starting at 80%, with more weight for 3 weeks, then deload
 // Lower is 4/6/8 reps
 // Upper is 6/8/10 reps
-// Increment applies after a cycle is complete
-func RPTIncreaseWeight(week int, upper bool) Set {
+func RPTIncreaseWeight(week int, liftTarget int) Set {
 
 	repsList := []int{}
 	percentageList := []float64{}
@@ -88,7 +96,7 @@ func RPTIncreaseWeight(week int, upper bool) Set {
 	// How much weight to add for next weeks
 	weeklyWeightIncrease = 0.025
 
-	if upper {
+	if liftTarget == lifts.TargetUpper {
 		base = 6
 		rptExtraReps = 2
 		startingPercentage = 0.80 // Based on 1RM tables for 8 reps
@@ -116,6 +124,7 @@ func RPTIncreaseWeight(week int, upper bool) Set {
 		RepsList:        repsList,
 		PercentageList:  truncateNumList(percentageList),
 		LastSetsIsAMRAP: false,
+		RestTimeSeconds: 90,
 	}
 }
 
@@ -142,6 +151,7 @@ func StaticSets(week, sets int, percentage float64) Set {
 		RepsList:        repsList,
 		PercentageList:  truncateNumList(percentageList),
 		LastSetsIsAMRAP: false,
+		RestTimeSeconds: 90,
 	}
 }
 
@@ -162,13 +172,14 @@ func StaticSetsIncreaseReps(sets, reps, increase int) Set {
 		RepsList:        repsList,
 		PercentageList:  truncateNumList(percentageList),
 		LastSetsIsAMRAP: false,
+		RestTimeSeconds: 90,
 	}
 }
 
 // truncateNumList is a helper function to round all floats to 3 decimal places
 func truncateNumList(numList []float64) (result []float64) {
 	for _, v := range numList {
-		result = append(result, float64(int(v*1000))/1000)
+		result = append(result, math.Round(v*1000)/1000)
 	}
 	return
 }

@@ -3,6 +3,7 @@ package sets
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"main/lifts"
 	"testing"
 )
 
@@ -28,6 +29,7 @@ var _ = Describe("FSL531", func() {
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
 				LastSetsIsAMRAP: false,
+				RestTimeSeconds: 60,
 			}
 
 			It("should be a 5x5 at 70%", func() {
@@ -45,6 +47,7 @@ var _ = Describe("FSL531", func() {
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
 				LastSetsIsAMRAP: false,
+				RestTimeSeconds: 60,
 			}
 
 			It("should be a 5x5 at 72.5%", func() {
@@ -64,6 +67,7 @@ var _ = Describe("FSL531", func() {
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
 				LastSetsIsAMRAP: false,
+				RestTimeSeconds: 90,
 			}
 
 			It("should be a 3x5 starting at 65%", func() {
@@ -81,6 +85,7 @@ var _ = Describe("FSL531", func() {
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
 				LastSetsIsAMRAP: false,
+				RestTimeSeconds: 90,
 			}
 
 			It("should be a 3x5 starting at 70%", func() {
@@ -100,6 +105,7 @@ var _ = Describe("FSL531", func() {
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
 				LastSetsIsAMRAP: false,
+				RestTimeSeconds: 90,
 			}
 
 			It("should be a 5x5 at 75%", func() {
@@ -117,6 +123,7 @@ var _ = Describe("FSL531", func() {
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
 				LastSetsIsAMRAP: false,
+				RestTimeSeconds: 90,
 			}
 
 			It("should be a 5x5 at 65%", func() {
@@ -127,7 +134,7 @@ var _ = Describe("FSL531", func() {
 
 	Describe("With an RPTIncreaseWeight session", func() {
 		Context("First week upper", func() {
-			session := RPTIncreaseWeight(1, true)
+			session := RPTIncreaseWeight(1, lifts.TargetUpper)
 			expectedRepsList = []int{6, 8, 10}
 			expectedPercentageList = []float64{0.80, 0.75, 0.70}
 
@@ -136,6 +143,25 @@ var _ = Describe("FSL531", func() {
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
 				LastSetsIsAMRAP: false,
+				RestTimeSeconds: 90,
+			}
+
+			It("should be an RPT set", func() {
+				Expect(session).To(Equal(expectedSets))
+			})
+		})
+
+		Context("First week lower", func() {
+			session := RPTIncreaseWeight(1, lifts.TargetLower)
+			expectedRepsList = []int{4, 5, 6}
+			expectedPercentageList = []float64{0.85, 0.8, 0.75}
+
+			expectedSets := Set{
+				RepsList:        expectedRepsList,
+				WeightsLBList:   nil,
+				PercentageList:  expectedPercentageList,
+				LastSetsIsAMRAP: false,
+				RestTimeSeconds: 90,
 			}
 
 			It("should be an RPT set", func() {
@@ -144,7 +170,7 @@ var _ = Describe("FSL531", func() {
 		})
 
 		Context("Third week lower", func() {
-			session := RPTIncreaseWeight(3, false)
+			session := RPTIncreaseWeight(3, lifts.TargetLower)
 			expectedRepsList = []int{4, 5, 6}
 			expectedPercentageList = []float64{0.90, 0.85, 0.80}
 
@@ -153,6 +179,7 @@ var _ = Describe("FSL531", func() {
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
 				LastSetsIsAMRAP: false,
+				RestTimeSeconds: 90,
 			}
 
 			It("should be an RPT set", func() {
@@ -172,6 +199,7 @@ var _ = Describe("FSL531", func() {
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
 				LastSetsIsAMRAP: false,
+				RestTimeSeconds: 90,
 			}
 
 			It("should match expected result", func() {

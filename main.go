@@ -1,8 +1,14 @@
 package main
 
 import (
-	"main/outputs"
+	"fmt"
+	"io/ioutil"
+	"main/exporters"
 	"main/programs"
+)
+
+var (
+	markdownExportEnabled = true
 )
 
 func main() {
@@ -12,7 +18,11 @@ func main() {
 	for _, program := range workoutPrograms {
 
 		if program.Export {
-			outputs.Markdown(program)
+			if markdownExportEnabled {
+				markdownBytes := exporters.Markdown(program)
+				outputName := fmt.Sprintf("output/%s.md", program.Name)
+				_ = ioutil.WriteFile(outputName, markdownBytes, 0644)
+			}
 		}
 
 	}

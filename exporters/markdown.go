@@ -1,8 +1,9 @@
-package outputs
+package exporters
 
 import (
 	"fmt"
 	"main/programs"
+	"math"
 )
 
 type result struct {
@@ -16,12 +17,14 @@ func Markdown(program programs.Program) []byte {
 	output.addHeader(1, program.Name)
 	output.addHeader(2, program.Explanation)
 
-	for week := 0; week < program.Weeks; week++ {
+	for week := 1; week <= program.Weeks; week++ {
 		lastWeek := false
 		if week == program.Weeks-1 {
 			lastWeek = true
 		}
 
+		output.addText("")
+		output.addHeader(3, fmt.Sprintf("Week %d", week))
 		weekNames, weekWorkouts := program.Routine(week)
 
 		for day := 0; day < program.DaysPerWeek; day++ {
@@ -41,16 +44,16 @@ func Markdown(program programs.Program) []byte {
 					if lift.Set.WeightsLBList != nil {
 						weightText = fmt.Sprintf("%v lbs", lift.Set.WeightsLBList[set])
 					} else {
-						weightText = fmt.Sprintf("%v%%", lift.Set.PercentageList[set]*100)
+						weightText = fmt.Sprintf("%v%%", truncateNum(lift.Set.PercentageList[set]*100))
 					}
 					if lift.Set.LastSetsIsAMRAP {
 						amrap = "+"
 					}
 
-					if lift.IncrementType == programs.IncrementTypeYes && lastSet {
-						if lift.ExerciseType == programs.ExerciseTypeWeightBased || lift.ExerciseType == programs.ExerciseTypePercentage {
+					if lastSet {
+						if lift.IncrementType == programs.IncrementWeightsPerSession {
 							addWeight = "(Add weight)"
-						} else if lastWeek {
+						} else if lastWeek && lift.IncrementType == programs.IncrementWeightsProgramComplete {
 							addWeight = "(Add weight)"
 						}
 					}
@@ -61,8 +64,7 @@ func Markdown(program programs.Program) []byte {
 		}
 	}
 
-	fmt.Println(output.output)
-	return []byte("Hello world")
+	return []byte(output.output)
 }
 
 func (r *result) addHeader(level int, text string) {
@@ -86,4 +88,9 @@ func (r *result) addRow(rowText []string) {
 
 func boldText(text string) string {
 	return fmt.Sprintf("**%s**", text)
+}
+
+// truncateNumList is a helper function to round all floats to 1 decimal places
+func truncateNum(num float64) float64 {
+	return math.Round(num*10) / 10
 }
