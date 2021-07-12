@@ -155,6 +155,42 @@ func StaticSets(week, sets int, percentage float64) Set {
 	}
 }
 
+// StaticSetsIncreaseWeekly returns an Xx5 exercise
+// Week 1 returns 75% multiplied by percentage
+// Week 2 returns 80% multiplied by percentage
+// Week 3 returns 85% multiplied by percentage
+// Week 4 returns 65% multiplied by percentage
+func StaticSetsIncreaseWeekly(week, sets int, percentage float64) Set {
+
+	repsList := []int{}
+	percentageList := []float64{}
+
+	switch week {
+	case 1:
+		percentage = percentage * .75
+	case 2:
+		percentage = percentage * .8
+	case 3:
+		percentage = percentage * .85
+	case 4:
+		percentage = percentage * .65
+	}
+
+	reps := 5
+
+	for i := 0; i < sets; i++ {
+		repsList = append(repsList, reps)
+		percentageList = append(percentageList, percentage)
+	}
+
+	return Set{
+		RepsList:        repsList,
+		PercentageList:  truncateNumList(percentageList),
+		LastSetsIsAMRAP: false,
+		RestTimeSeconds: 90,
+	}
+}
+
 // StaticSetsIncreaseReps returns a sets x reps Exercise at 100%
 // Reps are increased by increase for every set
 func StaticSetsIncreaseReps(sets, reps, increase int) Set {

@@ -188,6 +188,44 @@ var _ = Describe("FSL531", func() {
 		})
 	})
 
+	Describe("With a StaticSetsIncreaseWeekly session", func() {
+		Context("First week", func() {
+			session := StaticSetsIncreaseWeekly(1, 3, 1)
+			expectedRepsList = []int{5, 5, 5}
+			expectedPercentageList = []float64{0.75, 0.75, 0.75}
+
+			expectedSets := Set{
+				RepsList:        expectedRepsList,
+				WeightsLBList:   nil,
+				PercentageList:  expectedPercentageList,
+				LastSetsIsAMRAP: false,
+				RestTimeSeconds: 90,
+			}
+
+			It("should match expected result", func() {
+				Expect(session).To(Equal(expectedSets))
+			})
+		})
+
+		Context("Third week at 90%", func() {
+			session := StaticSetsIncreaseWeekly(1, 3, .9)
+			expectedRepsList = []int{5, 5, 5}
+			expectedPercentageList = []float64{0.675, 0.675, 0.675}
+
+			expectedSets := Set{
+				RepsList:        expectedRepsList,
+				WeightsLBList:   nil,
+				PercentageList:  expectedPercentageList,
+				LastSetsIsAMRAP: false,
+				RestTimeSeconds: 90,
+			}
+
+			It("should match expected result", func() {
+				Expect(session).To(Equal(expectedSets))
+			})
+		})
+	})
+
 	Describe("With a StaticSetsIncreaseReps session", func() {
 		Context("First week", func() {
 			session := StaticSetsIncreaseReps(3, 6, 3)

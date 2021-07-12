@@ -19,7 +19,7 @@ func Markdown(program programs.Program) []byte {
 
 	for week := 1; week <= program.Weeks; week++ {
 		lastWeek := false
-		if week == program.Weeks-1 {
+		if week == program.Weeks {
 			lastWeek = true
 		}
 
