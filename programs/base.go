@@ -2,7 +2,7 @@ package programs
 
 import (
 	"main/lifts"
-	"main/sets"
+	"main/sessions"
 )
 
 type Program struct {
@@ -18,7 +18,7 @@ type workoutDay []workout
 
 type workout struct {
 	Lift          lifts.Lift
-	Set           sets.Set
+	Session       sessions.Session
 	IncrementType int
 }
 

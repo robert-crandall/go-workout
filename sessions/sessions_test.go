@@ -1,4 +1,4 @@
-package sets
+package sessions
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -24,7 +24,7 @@ var _ = Describe("FSL531", func() {
 			expectedRepsList = []int{5, 5, 5, 5, 5}
 			expectedPercentageList = []float64{0.7, 0.7, 0.7, 0.7, 0.7}
 
-			expectedSets := Set{
+			expectedSets := Session{
 				RepsList:        expectedRepsList,
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
@@ -42,7 +42,7 @@ var _ = Describe("FSL531", func() {
 			expectedRepsList = []int{5, 5, 5, 5, 5}
 			expectedPercentageList = []float64{0.725, 0.725, 0.725, 0.725, 0.725}
 
-			expectedSets := Set{
+			expectedSets := Session{
 				RepsList:        expectedRepsList,
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
@@ -62,7 +62,7 @@ var _ = Describe("FSL531", func() {
 			expectedRepsList = []int{5, 5, 5}
 			expectedPercentageList = []float64{0.65, 0.75, 0.85}
 
-			expectedSets := Set{
+			expectedSets := Session{
 				RepsList:        expectedRepsList,
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
@@ -80,7 +80,7 @@ var _ = Describe("FSL531", func() {
 			expectedRepsList = []int{3, 3, 3}
 			expectedPercentageList = []float64{0.70, 0.80, 0.90}
 
-			expectedSets := Set{
+			expectedSets := Session{
 				RepsList:        expectedRepsList,
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
@@ -100,7 +100,7 @@ var _ = Describe("FSL531", func() {
 			expectedRepsList = []int{5, 5, 5, 5, 5}
 			expectedPercentageList = []float64{0.75, 0.75, 0.75, 0.75, 0.75}
 
-			expectedSets := Set{
+			expectedSets := Session{
 				RepsList:        expectedRepsList,
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
@@ -118,7 +118,7 @@ var _ = Describe("FSL531", func() {
 			expectedRepsList = []int{5, 5, 5, 5, 5}
 			expectedPercentageList = []float64{0.65, 0.65, 0.65, 0.65, 0.65}
 
-			expectedSets := Set{
+			expectedSets := Session{
 				RepsList:        expectedRepsList,
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
@@ -138,7 +138,7 @@ var _ = Describe("FSL531", func() {
 			expectedRepsList = []int{6, 8, 10}
 			expectedPercentageList = []float64{0.80, 0.75, 0.70}
 
-			expectedSets := Set{
+			expectedSets := Session{
 				RepsList:        expectedRepsList,
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
@@ -156,7 +156,7 @@ var _ = Describe("FSL531", func() {
 			expectedRepsList = []int{4, 5, 6}
 			expectedPercentageList = []float64{0.85, 0.8, 0.75}
 
-			expectedSets := Set{
+			expectedSets := Session{
 				RepsList:        expectedRepsList,
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
@@ -174,7 +174,7 @@ var _ = Describe("FSL531", func() {
 			expectedRepsList = []int{4, 5, 6}
 			expectedPercentageList = []float64{0.90, 0.85, 0.80}
 
-			expectedSets := Set{
+			expectedSets := Session{
 				RepsList:        expectedRepsList,
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
@@ -194,7 +194,7 @@ var _ = Describe("FSL531", func() {
 			expectedRepsList = []int{5, 5, 5}
 			expectedPercentageList = []float64{0.75, 0.75, 0.75}
 
-			expectedSets := Set{
+			expectedSets := Session{
 				RepsList:        expectedRepsList,
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
@@ -212,7 +212,7 @@ var _ = Describe("FSL531", func() {
 			expectedRepsList = []int{5, 5, 5}
 			expectedPercentageList = []float64{0.675, 0.675, 0.675}
 
-			expectedSets := Set{
+			expectedSets := Session{
 				RepsList:        expectedRepsList,
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,
@@ -232,7 +232,7 @@ var _ = Describe("FSL531", func() {
 			expectedRepsList = []int{6, 9, 12}
 			expectedPercentageList = []float64{1, 1, 1}
 
-			expectedSets := Set{
+			expectedSets := Session{
 				RepsList:        expectedRepsList,
 				WeightsLBList:   nil,
 				PercentageList:  expectedPercentageList,

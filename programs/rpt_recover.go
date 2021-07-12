@@ -3,7 +3,7 @@ package programs
 import (
 	"fmt"
 	"main/lifts"
-	"main/sets"
+	"main/sessions"
 )
 
 func init() {
@@ -24,12 +24,12 @@ func recover_rpt() Program {
 		DaysList = append(DaysList, []workout{
 			{
 				Lift:          lifts.Bench(),
-				Set:           sets.RPTIncreaseWeight(weeknum, lifts.Bench().Target),
+				Session:       sessions.RPTIncreaseWeight(weeknum, lifts.Bench().Target),
 				IncrementType: IncrementWeightsProgramComplete,
 			},
 			{
 				Lift:          lifts.Pushup(),
-				Set:           sets.StaticSetsIncreaseReps(3, 8, 2),
+				Session:       sessions.StaticSetsIncreaseReps(3, 8, 2),
 				IncrementType: IncrementWeightsProgramComplete,
 			},
 		})
@@ -39,12 +39,12 @@ func recover_rpt() Program {
 		DaysList = append(DaysList, []workout{
 			{
 				Lift:          lifts.Squat(),
-				Set:           sets.StaticSets(weeknum, 3, 1),
+				Session:       sessions.StaticSets(weeknum, 3, 1),
 				IncrementType: IncrementWeightsPerSession,
 			},
 			{
 				Lift:          lifts.Ohp(),
-				Set:           sets.StaticSets(weeknum, 3, 0.85),
+				Session:       sessions.StaticSets(weeknum, 3, 0.85),
 				IncrementType: IncrementWeightsProgramComplete,
 			},
 		})
@@ -54,12 +54,12 @@ func recover_rpt() Program {
 		DaysList = append(DaysList, []workout{
 			{
 				Lift:          lifts.Deadlift(),
-				Set:           sets.RPTIncreaseWeight(weeknum, lifts.Deadlift().Target),
+				Session:       sessions.RPTIncreaseWeight(weeknum, lifts.Deadlift().Target),
 				IncrementType: IncrementWeightsProgramComplete,
 			},
 			{
 				Lift:          lifts.Chipup(),
-				Set:           sets.StaticSetsIncreaseReps(3, 5, 1),
+				Session:       sessions.StaticSetsIncreaseReps(3, 5, 1),
 				IncrementType: IncrementWeightsProgramComplete,
 			},
 		})
@@ -69,12 +69,12 @@ func recover_rpt() Program {
 		DaysList = append(DaysList, []workout{
 			{
 				Lift:          lifts.Bench(),
-				Set:           sets.StaticSets(weeknum, 3, 0.85),
+				Session:       sessions.StaticSets(weeknum, 3, 0.85),
 				IncrementType: IncrementWeightsProgramComplete,
 			},
 			{
 				Lift:          lifts.Bench(),
-				Set:           sets.FSL531(weeknum),
+				Session:       sessions.FSL531(weeknum),
 				IncrementType: IncrementWeightsOff,
 			},
 		})
@@ -84,12 +84,12 @@ func recover_rpt() Program {
 		DaysList = append(DaysList, []workout{
 			{
 				Lift:          lifts.Squat(),
-				Set:           sets.StaticSets(weeknum, 3, 1),
+				Session:       sessions.StaticSets(weeknum, 3, 1),
 				IncrementType: IncrementWeightsPerSession,
 			},
 			{
 				Lift:          lifts.Ohp(),
-				Set:           sets.RPTIncreaseWeight(weeknum, lifts.Ohp().Target),
+				Session:       sessions.RPTIncreaseWeight(weeknum, lifts.Ohp().Target),
 				IncrementType: IncrementWeightsProgramComplete,
 			},
 		})
@@ -99,12 +99,12 @@ func recover_rpt() Program {
 		DaysList = append(DaysList, []workout{
 			{
 				Lift:          lifts.HipThrust(),
-				Set:           sets.RPTIncreaseWeight(weeknum, lifts.HipThrust().Target),
+				Session:       sessions.RPTIncreaseWeight(weeknum, lifts.HipThrust().Target),
 				IncrementType: IncrementWeightsProgramComplete,
 			},
 			{
 				Lift:          lifts.Pullup(),
-				Set:           sets.StaticSetsIncreaseReps(3, 5, 1),
+				Session:       sessions.StaticSetsIncreaseReps(3, 5, 1),
 				IncrementType: IncrementWeightsProgramComplete,
 			},
 		})

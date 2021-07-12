@@ -3,7 +3,7 @@ package programs
 import (
 	"fmt"
 	"main/lifts"
-	"main/sets"
+	"main/sessions"
 )
 
 func init() {
@@ -22,17 +22,17 @@ func texas_monthly() Program {
 		bench := map[string]workout{
 			"recovery": {
 				Lift:          lifts.Bench(),
-				Set:           sets.StaticSetsIncreaseWeekly(weeknum, 3, .9),
+				Session:       sessions.StaticSetsIncreaseWeekly(weeknum, 3, .9),
 				IncrementType: IncrementWeightsOff,
 			},
 			"volume": {
 				Lift:          lifts.Bench(),
-				Set:           sets.StaticSetsIncreaseWeekly(weeknum, 5, .9),
+				Session:       sessions.StaticSetsIncreaseWeekly(weeknum, 5, .9),
 				IncrementType: IncrementWeightsOff,
 			},
 			"intensity": {
 				Lift:          lifts.Bench(),
-				Set:           sets.StaticSetsIncreaseWeekly(weeknum, 3, 1),
+				Session:       sessions.StaticSetsIncreaseWeekly(weeknum, 3, 1),
 				IncrementType: IncrementWeightsProgramComplete,
 			},
 		}
@@ -40,17 +40,17 @@ func texas_monthly() Program {
 		ohp := map[string]workout{
 			"recovery": {
 				Lift:          lifts.Ohp(),
-				Set:           sets.StaticSetsIncreaseWeekly(weeknum, 3, .9),
+				Session:       sessions.StaticSetsIncreaseWeekly(weeknum, 3, .9),
 				IncrementType: IncrementWeightsOff,
 			},
 			"volume": {
 				Lift:          lifts.Ohp(),
-				Set:           sets.StaticSetsIncreaseWeekly(weeknum, 5, .9),
+				Session:       sessions.StaticSetsIncreaseWeekly(weeknum, 5, .9),
 				IncrementType: IncrementWeightsOff,
 			},
 			"intensity": {
 				Lift:          lifts.Ohp(),
-				Set:           sets.StaticSetsIncreaseWeekly(weeknum, 3, 1),
+				Session:       sessions.StaticSetsIncreaseWeekly(weeknum, 3, 1),
 				IncrementType: IncrementWeightsProgramComplete,
 			},
 		}
@@ -59,32 +59,32 @@ func texas_monthly() Program {
 		squat := map[string]workout{
 			"recovery": {
 				Lift:          lifts.Squat(),
-				Set:           sets.StaticSets(1, 3, 1),
+				Session:       sessions.StaticSets(1, 3, 1),
 				IncrementType: IncrementWeightsPerSession,
 			},
 			"planned_recovery": {
 				Lift:          lifts.Squat(),
-				Set:           sets.StaticSets(weeknum, 2, .8),
+				Session:       sessions.StaticSets(weeknum, 2, .8),
 				IncrementType: IncrementWeightsOff,
 			},
 			"volume": {
 				Lift:          lifts.Squat(),
-				Set:           sets.StaticSets(1, 3, 1),
+				Session:       sessions.StaticSets(1, 3, 1),
 				IncrementType: IncrementWeightsPerSession,
 			},
 			"planned_volume": {
 				Lift:          lifts.Squat(),
-				Set:           sets.StaticSets(weeknum, 5, .9),
+				Session:       sessions.StaticSets(weeknum, 5, .9),
 				IncrementType: IncrementWeightsOff,
 			},
 			"intensity": {
 				Lift:          lifts.Squat(),
-				Set:           sets.StaticSets(1, 3, 1),
+				Session:       sessions.StaticSets(1, 3, 1),
 				IncrementType: IncrementWeightsPerSession,
 			},
 			"planned_intensity": {
 				Lift:          lifts.Squat(),
-				Set:           sets.StaticSets(weeknum, 3, 1),
+				Session:       sessions.StaticSets(weeknum, 3, 1),
 				IncrementType: IncrementWeightsProgramComplete,
 			},
 		}
@@ -92,17 +92,17 @@ func texas_monthly() Program {
 		deadlift := map[string]workout{
 			"recovery": {
 				Lift:          lifts.Deadlift(),
-				Set:           sets.StaticSets(weeknum, 2, .8),
+				Session:       sessions.StaticSets(weeknum, 2, .8),
 				IncrementType: IncrementWeightsPerSession,
 			},
 			"volume": {
 				Lift:          lifts.Deadlift(),
-				Set:           sets.StaticSets(weeknum, 3, .9),
+				Session:       sessions.StaticSets(weeknum, 3, .9),
 				IncrementType: IncrementWeightsPerSession,
 			},
 			"intensity": {
 				Lift:          lifts.Deadlift(),
-				Set:           sets.StaticSets(weeknum, 1, 1),
+				Session:       sessions.StaticSets(weeknum, 1, 1),
 				IncrementType: IncrementWeightsProgramComplete,
 			},
 		}
@@ -110,17 +110,17 @@ func texas_monthly() Program {
 		barbellRow := map[string]workout{
 			"recovery": {
 				Lift:          lifts.BarbellRow(),
-				Set:           sets.StaticSetsIncreaseWeekly(weeknum, 3, .9),
+				Session:       sessions.StaticSetsIncreaseWeekly(weeknum, 3, .9),
 				IncrementType: IncrementWeightsOff,
 			},
 			"volume": {
 				Lift:          lifts.BarbellRow(),
-				Set:           sets.StaticSetsIncreaseWeekly(weeknum, 5, .9),
+				Session:       sessions.StaticSetsIncreaseWeekly(weeknum, 5, .9),
 				IncrementType: IncrementWeightsOff,
 			},
 			"intensity": {
 				Lift:          lifts.BarbellRow(),
-				Set:           sets.StaticSetsIncreaseWeekly(weeknum, 3, 1),
+				Session:       sessions.StaticSetsIncreaseWeekly(weeknum, 3, 1),
 				IncrementType: IncrementWeightsProgramComplete,
 			},
 		}
@@ -147,7 +147,7 @@ func texas_monthly() Program {
 			ohp["volume"],
 			{
 				Lift:          verticalPull,
-				Set:           sets.StaticSetsIncreaseReps(3, 5, 1),
+				Session:       sessions.StaticSetsIncreaseReps(3, 5, 1),
 				IncrementType: IncrementWeightsProgramComplete,
 			},
 		})

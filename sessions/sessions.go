@@ -1,11 +1,11 @@
-package sets
+package sessions
 
 import (
 	"main/lifts"
 	"math"
 )
 
-type Set struct {
+type Session struct {
 	RepsList        []int
 	WeightsLBList   []int     // For weight based lifts
 	PercentageList  []float64 // For percentage based lifts
@@ -13,9 +13,9 @@ type Set struct {
 	RestTimeSeconds int       // Time between sets
 }
 
-// FSL531 returns a 5x5 Set matching Wendler's 531 First Set Last program
+// FSL531 returns a 5x5 Session matching Wendler's 531 First Session Last program
 // Weight is a percentage based on the week number
-func FSL531(week int) Set {
+func FSL531(week int) Session {
 
 	repsList := []int{}
 	percentageList := []float64{}
@@ -42,7 +42,7 @@ func FSL531(week int) Set {
 		percentageList = append(percentageList, percentage)
 	}
 
-	return Set{
+	return Session{
 		RepsList:        repsList,
 		PercentageList:  truncateNumList(percentageList),
 		LastSetsIsAMRAP: false,
@@ -50,9 +50,9 @@ func FSL531(week int) Set {
 	}
 }
 
-// Main531 returns a Set matching Wendler's 531 program
+// Main531 returns a Session matching Wendler's 531 program
 // Weight is a percentage based on week number
-func Main531(week int) Set {
+func Main531(week int) Session {
 
 	repsList := []int{}
 	percentageList := []float64{}
@@ -74,7 +74,7 @@ func Main531(week int) Set {
 		percentageList = []float64{0.40, 0.50, 0.60}
 	}
 
-	return Set{
+	return Session{
 		RepsList:        repsList,
 		PercentageList:  truncateNumList(percentageList),
 		LastSetsIsAMRAP: lastSetIsAmrap,
@@ -85,7 +85,7 @@ func Main531(week int) Set {
 // RPTIncreaseWeight returns a Reverse Pyramid Exercise, starting at 80%, with more weight for 3 weeks, then deload
 // Lower is 4/6/8 reps
 // Upper is 6/8/10 reps
-func RPTIncreaseWeight(week int, liftTarget int) Set {
+func RPTIncreaseWeight(week int, liftTarget int) Session {
 
 	repsList := []int{}
 	percentageList := []float64{}
@@ -120,7 +120,7 @@ func RPTIncreaseWeight(week int, liftTarget int) Set {
 	repsList = []int{base, base + rptExtraReps, base + (rptExtraReps * 2)}
 	percentageList = []float64{startingPercentage, startingPercentage - weightDecrement, startingPercentage - (weightDecrement * 2)}
 
-	return Set{
+	return Session{
 		RepsList:        repsList,
 		PercentageList:  truncateNumList(percentageList),
 		LastSetsIsAMRAP: false,
@@ -130,7 +130,7 @@ func RPTIncreaseWeight(week int, liftTarget int) Set {
 
 // StaticSets returns an Xx5 exercise at a given percentage
 // Week 4 is a deload week
-func StaticSets(week, sets int, percentage float64) Set {
+func StaticSets(week, sets int, percentage float64) Session {
 
 	repsList := []int{}
 	percentageList := []float64{}
@@ -147,7 +147,7 @@ func StaticSets(week, sets int, percentage float64) Set {
 		percentageList = append(percentageList, percentage)
 	}
 
-	return Set{
+	return Session{
 		RepsList:        repsList,
 		PercentageList:  truncateNumList(percentageList),
 		LastSetsIsAMRAP: false,
@@ -160,7 +160,7 @@ func StaticSets(week, sets int, percentage float64) Set {
 // Week 2 returns 80% multiplied by percentage
 // Week 3 returns 85% multiplied by percentage
 // Week 4 returns 65% multiplied by percentage
-func StaticSetsIncreaseWeekly(week, sets int, percentage float64) Set {
+func StaticSetsIncreaseWeekly(week, sets int, percentage float64) Session {
 
 	repsList := []int{}
 	percentageList := []float64{}
@@ -183,7 +183,7 @@ func StaticSetsIncreaseWeekly(week, sets int, percentage float64) Set {
 		percentageList = append(percentageList, percentage)
 	}
 
-	return Set{
+	return Session{
 		RepsList:        repsList,
 		PercentageList:  truncateNumList(percentageList),
 		LastSetsIsAMRAP: false,
@@ -193,7 +193,7 @@ func StaticSetsIncreaseWeekly(week, sets int, percentage float64) Set {
 
 // StaticSetsIncreaseReps returns a sets x reps Exercise at 100%
 // Reps are increased by increase for every set
-func StaticSetsIncreaseReps(sets, reps, increase int) Set {
+func StaticSetsIncreaseReps(sets, reps, increase int) Session {
 
 	repsList := []int{}
 	percentageList := []float64{}
@@ -204,7 +204,7 @@ func StaticSetsIncreaseReps(sets, reps, increase int) Set {
 		percentageList = append(percentageList, 1.0)
 	}
 
-	return Set{
+	return Session{
 		RepsList:        repsList,
 		PercentageList:  truncateNumList(percentageList),
 		LastSetsIsAMRAP: false,
