@@ -8,9 +8,9 @@ import (
 
 const (
 	ExerciseTypeWeightBased       = 0
-	ExerciseTypeWendlerMainLift   = 1
+	ExerciseTypeWendlerMainLift   = 1 // Monthly progression with Warmup
 	ExerciseTypePercentage        = 5
-	ExerciseTypeWendlerAssistance = 6
+	ExerciseTypeWendlerAssistance = 6 // No progression, no warmup
 	IncrementTypeYes              = 10
 	IncrementTypeNo               = 0
 )
@@ -117,7 +117,7 @@ func PersonalTrainerApp(program programs.Program) []byte {
 					exerciseType = ExerciseTypePercentage
 					incrementType = IncrementTypeYes
 				case programs.IncrementWeightsOff:
-					exerciseType = ExerciseTypeWendlerAssistance
+					exerciseType = ExerciseTypeWendlerMainLift
 					incrementType = IncrementTypeNo
 				}
 
