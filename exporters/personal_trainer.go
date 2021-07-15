@@ -79,7 +79,6 @@ type DaysList struct {
 func PersonalTrainerApp(program programs.Program) []byte {
 
 	workout := PTAWorkout{
-		Noofdays:    program.DaysPerWeek,
 		Explanation: program.Explanation,
 		ShortName:   program.Name,
 		Routinetype: "RC", // Where to store this workout in the app
@@ -125,34 +124,37 @@ func PersonalTrainerApp(program programs.Program) []byte {
 				reptypeList := []int{}
 				weightksList := []float64{}
 				weightslbList := []int{}
+				repsList := []int{}
+				percentageList := []float64{}
 
 				lastSetAmrap := 0
-				if session.Session.LastSetsIsAMRAP {
+				if session.Sets.LastSetsIsAMRAP {
 					lastSetAmrap = 1
 				}
-				for set := 0; set < len(session.Session.RepsList); set++ {
+				for set := 0; set < len(session.Sets.SetList); set++ {
 
 					// Last set
-					if set == len(session.Session.RepsList)-1 {
+					weightksList = append(weightksList, 2.5)
+					weightslbList = append(weightslbList, 5)
+					repsList = append(repsList, session.Sets.SetList[set].Reps)
+					percentageList = append(percentageList, session.Sets.SetList[set].WeightPercentage)
+
+					if set == len(session.Sets.SetList)-1 {
 						reptypeList = append(reptypeList, lastSetAmrap) // Last set is AMRAP
-						weightksList = append(weightksList, 2.5)
-						weightslbList = append(weightslbList, 5)
 					} else {
-						weightksList = append(weightksList, 2.5)
-						weightslbList = append(weightslbList, 5)
 						reptypeList = append(reptypeList, 0)
 					}
 
 				}
 
 				session := DaysList{
-					Resttime1:       session.Session.RestTimeSeconds,
+					Resttime1:       session.Sets.RestTimeSeconds,
 					WeightskgList:   weightksList,
-					RepsList:        session.Session.RepsList,
-					LastsetsisAMRAP: session.Session.LastSetsIsAMRAP,
+					RepsList:        repsList,
+					LastsetsisAMRAP: session.Sets.LastSetsIsAMRAP,
 					IncrementType:   incrementType,
 					WeightslbList:   weightslbList,
-					PercentageList:  session.Session.PercentageList,
+					PercentageList:  percentageList,
 					Exercisetype:    exerciseType,
 					ReptypeList:     reptypeList,
 					Name:            session.Lift.Name,
@@ -198,6 +200,7 @@ func (w *PTAWorkout) fillDefaults() {
 
 // SetDayNumber sets required values in workout to the number of days in a program
 func (w *PTAWorkout) setDayNumber(days int) {
+	w.Noofdays = days
 	w.Days = days
 	w.ProgramDays = days
 	w.WhenToUpdateWeights = days
@@ -238,8 +241,8 @@ func (d *DaysList) fillDefaults() {
 		d.Resttime1 = 90
 	}
 
-	d.Resttime2 = int(float32(d.Resttime1) * float32(1.5))
-	d.Resttime3 = d.Resttime1 * 2
+	d.Resttime2 = int(float32(d.Resttime1) * float32(2))
+	d.Resttime3 = d.Resttime1 * 3
 
 	if d.DeloadPercentage == 0 {
 		d.DeloadPercentage = 10

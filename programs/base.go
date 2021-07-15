@@ -2,13 +2,12 @@ package programs
 
 import (
 	"main/lifts"
-	"main/sessions"
+	"main/sets"
 )
 
 type Program struct {
-	Name        string
-	Explanation string
-	DaysPerWeek int                                // Workouts per week
+	Name        string                             // Overall program name, ie "Starting Strength"
+	Explanation string                             // Test field to indicate what this is, ie "A 3x5 workout with daily progression"
 	Weeks       int                                // Weeks until a complete cycle
 	Export      bool                               // Whether to export this program or not
 	Routine     func(int) ([]string, []workoutDay) // Lists of day names and workouts
@@ -18,7 +17,7 @@ type workoutDay []workout
 
 type workout struct {
 	Lift          lifts.Lift
-	Session       sessions.Session
+	Sets          sets.Sets
 	IncrementType int
 }
 

@@ -27,7 +27,8 @@ func Markdown(program programs.Program) []byte {
 		output.addHeader(3, fmt.Sprintf("Week %d", week))
 		weekNames, weekWorkouts := program.Routine(week)
 
-		for day := 0; day < program.DaysPerWeek; day++ {
+		daysPerWeek := len(weekNames)
+		for day := 0; day < daysPerWeek; day++ {
 			output.addText("") // blank line
 			output.addText(boldText(weekNames[day]))
 
@@ -35,18 +36,16 @@ func Markdown(program programs.Program) []byte {
 			for _, lift := range workoutDay {
 				output.addText(fmt.Sprintf("* %s", lift.Lift.Name))
 
-				for set := 0; set < len(lift.Session.RepsList); set++ {
+				for set := 0; set < len(lift.Sets.SetList); set++ {
 					lastSet := false
-					if set == len(lift.Session.RepsList)-1 {
+					if set == len(lift.Sets.SetList)-1 {
 						lastSet = true
 					}
 					var weightText, amrap, addWeight string
-					if lift.Session.WeightsLBList != nil {
-						weightText = fmt.Sprintf("%v lbs", lift.Session.WeightsLBList[set])
-					} else {
-						weightText = fmt.Sprintf("%v%%", truncateNum(lift.Session.PercentageList[set]*100))
-					}
-					if lift.Session.LastSetsIsAMRAP {
+
+					weightText = fmt.Sprintf("%v%%", truncateNum(lift.Sets.SetList[set].WeightPercentage*100))
+
+					if lift.Sets.LastSetsIsAMRAP {
 						amrap = "+"
 					}
 
@@ -58,7 +57,7 @@ func Markdown(program programs.Program) []byte {
 						}
 					}
 
-					output.addText(fmt.Sprintf("  * %d%s @ %s %s", lift.Session.RepsList[set], amrap, weightText, addWeight))
+					output.addText(fmt.Sprintf("  * %d%s @ %s %s", lift.Sets.SetList[set].Reps, amrap, weightText, addWeight))
 				}
 			}
 		}
