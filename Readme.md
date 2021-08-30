@@ -2,7 +2,7 @@
 
 This is a tool to describe workout cycles in Go.
 
-Workouts can be exported to (Personal Trainer)[https://apps.apple.com/us/app/personal-training-coach/id1325495597] format, 
+Workouts can be exported to [Personal Trainer](https://apps.apple.com/us/app/personal-training-coach/id1325495597) format, 
 and a human-readable format for comparisons.
 
 ## Structure
