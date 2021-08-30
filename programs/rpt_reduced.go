@@ -7,11 +7,11 @@ import (
 )
 
 func init() {
-	programs = append(programs, rpt_bodyweight())
+	programs = append(programs, rpt_reduced())
 }
 
 // Workout program with one lift (squats) as simple Sets by Reps for recovery
-func rpt_bodyweight() Program {
+func rpt_reduced() Program {
 
 	routine := func(weeknum int) ([]string, []workoutDay) {
 
@@ -22,8 +22,8 @@ func rpt_bodyweight() Program {
 
 		switch weeknum {
 		case 1:
-			rptStartingUpperPercentage = 0.8
-			rptStartingLowerPercentage = 0.85
+			rptStartingUpperPercentage = 0.85
+			rptStartingLowerPercentage = 0.9
 			staticWeight = 0.75
 		case 2:
 			rptStartingUpperPercentage = 0.825
@@ -85,25 +85,7 @@ func rpt_bodyweight() Program {
 			},
 			"bodyweight": {
 				Lift:          lifts.Pushup(),
-				IncrementType: IncrementWeightsProgramComplete,
-				Sets:          bodyWeightSet,
-			},
-		}
-
-		ohp := map[string]workout{
-			"volume": {
-				Lift:          lifts.Ohp(),
 				IncrementType: IncrementWeightsOff,
-				Sets:          secondaryLifts.Static(),
-			},
-			"rpt": {
-				Lift:          lifts.Ohp(),
-				Sets:          upperRPTLifts,
-				IncrementType: IncrementWeightsProgramComplete,
-			},
-			"bodyweight": {
-				Lift:          lifts.HandstandPushup(), // Not really. Doing handstands or something.
-				IncrementType: IncrementWeightsProgramComplete,
 				Sets:          bodyWeightSet,
 			},
 		}
@@ -130,7 +112,7 @@ func rpt_bodyweight() Program {
 			"rpt": {
 				Lift:          lifts.Squat(),
 				Sets:          squatLifts.Static(),
-				IncrementType: IncrementWeightsPerSession,
+				IncrementType: IncrementWeightsProgramComplete,
 			},
 			"bodyweight": {
 				Lift:          lifts.ReverseLunge(), // It's not really, but I don't want to add a jump squat right now
@@ -139,29 +121,10 @@ func rpt_bodyweight() Program {
 			},
 		}
 
-		barbellRow := map[string]workout{
-			"volume": {
-				Lift:          lifts.BarbellRow(),
-				IncrementType: IncrementWeightsOff,
-				Sets:          secondaryLifts.Static(),
-			},
-			"rpt": {
-				Lift:          lifts.BarbellRow(),
-				Sets:          upperRPTLifts,
-				IncrementType: IncrementWeightsProgramComplete,
-			},
-			// Bodyweight rows would be something like suspended ring rows.
-			//"bodyweight": {
-			//	Lift:          verticalPullLift,
-			//	IncrementType: IncrementWeightsProgramComplete,
-			//	Sets:          bodyWeightSet,
-			//},
-		}
-
 		pullup := map[string]workout{
 			"bodyweight": {
 				Lift:          lifts.Pullup(),
-				IncrementType: IncrementWeightsProgramComplete,
+				IncrementType: IncrementWeightsOff,
 				Sets:          bodyWeightSet,
 			},
 		}
@@ -169,49 +132,36 @@ func rpt_bodyweight() Program {
 		chinup := map[string]workout{
 			"bodyweight": {
 				Lift:          lifts.Chipup(),
-				IncrementType: IncrementWeightsProgramComplete,
+				IncrementType: IncrementWeightsOff,
 				Sets:          bodyWeightSet,
 			},
 		}
 
 		// Describes WHEN to do exercises
-		dayNames = append(dayNames, fmt.Sprintf("Push Bench %d", weeknum))
+		dayNames = append(dayNames, fmt.Sprintf("Bench and Squat %d", weeknum))
 		daysList = append(daysList, []workout{
-			ohp["volume"],
+			squat["volume"],
 			bench["rpt"],
 			bench["bodyweight"],
 		})
 
-		dayNames = append(dayNames, fmt.Sprintf("Pull Heavy %d", weeknum))
+		dayNames = append(dayNames, fmt.Sprintf("Deadlift Volume %d", weeknum))
 		daysList = append(daysList, []workout{
-			barbellRow["rpt"],
+			deadlift["volume"],
 			pullup["bodyweight"],
 		})
 
-		dayNames = append(dayNames, fmt.Sprintf("Legs Squat %d", weeknum))
+		dayNames = append(dayNames, fmt.Sprintf("Bench and Squat %d", weeknum))
 		daysList = append(daysList, []workout{
-			deadlift["volume"],
+			bench["volume"],
 			squat["rpt"],
 			squat["bodyweight"],
 		})
 
-		dayNames = append(dayNames, fmt.Sprintf("Push OHP %d", weeknum))
+		dayNames = append(dayNames, fmt.Sprintf("Deadlift Heavy %d", weeknum))
 		daysList = append(daysList, []workout{
-			bench["volume"],
-			ohp["rpt"],
-			ohp["bodyweight"],
-		})
-
-		dayNames = append(dayNames, fmt.Sprintf("Pull Volume %d", weeknum))
-		daysList = append(daysList, []workout{
-			barbellRow["volume"],
-			chinup["bodyweight"],
-		})
-
-		dayNames = append(dayNames, fmt.Sprintf("Legs Deadlift %d", weeknum))
-		daysList = append(daysList, []workout{
-			squat["volume"],
 			deadlift["rpt"],
+			chinup["bodyweight"],
 		})
 
 		return dayNames, daysList
@@ -219,9 +169,9 @@ func rpt_bodyweight() Program {
 	}
 
 	program := Program{
-		Name:        "RPT 21.07",
-		Explanation: "RPT exercises with bodyweight at end. Still recovering squat.",
-		Weeks:       4,
+		Name:        "Reduced RPT 21.08",
+		Explanation: "Reduced RPT exercise aiming 4x week",
+		Weeks:       1,
 		Export:      true,
 		Routine:     routine,
 	}

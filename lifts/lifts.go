@@ -1,19 +1,19 @@
 package lifts
 
 const (
-	TargetLower         = 0
-	TargetUpper         = 1
-	LiftSquatID         = 2
-	LiftOHPID           = 3
-	LiftDLID            = 4
-	LiftBenchID         = 5
-	LiftBarbellRowID    = 6
-	LiftChinupID        = 8
-	LiftPullupIP        = 14
-	LiftOneLeggedSquat  = 52
-	LiftOverheadTriceps = 53
-	LiftPushupID        = 59
-	LiftHipThrustID     = 81
+	TargetLower              = 0
+	TargetUpper              = 1
+	LiftSquatID              = 2
+	LiftOHPID                = 3
+	LiftDLID                 = 4
+	LiftBenchID              = 5
+	LiftBarbellRowID         = 6
+	LiftChinupID             = 8
+	LiftPullupIP             = 14
+	LiftReverseLunge         = 55
+	LiftHandstandProgression = 53
+	LiftPushupID             = 59
+	LiftHipThrustID          = 81
 )
 
 func Bench() Lift {
@@ -32,10 +32,10 @@ func Ohp() Lift {
 	}
 }
 
-func OverheadTriceps() Lift {
+func HandstandPushup() Lift {
 	return Lift{
-		Name:       "Standing Overhead Triceps Extension",
-		ExerciseID: LiftOverheadTriceps,
+		Name:       "Handstand Push-up Progression",
+		ExerciseID: LiftHandstandProgression,
 		Target:     TargetUpper,
 	}
 }
@@ -56,10 +56,10 @@ func Squat() Lift {
 	}
 }
 
-func OneLeggedSquat() Lift {
+func ReverseLunge() Lift {
 	return Lift{
-		Name:       "One-legged Squats",
-		ExerciseID: LiftOneLeggedSquat,
+		Name:       "Reverse Lunges",
+		ExerciseID: LiftReverseLunge,
 		Target:     TargetLower,
 	}
 }
