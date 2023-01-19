@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"main/exporters"
 	"main/programs"
+	"os"
 	"time"
 )
 
@@ -14,6 +16,9 @@ var (
 )
 
 func main() {
+	// Cleanup current directory
+	cleanUp()
+
 	// Create base workout
 	workoutPrograms := programs.GetPrograms()
 
@@ -33,5 +38,19 @@ func main() {
 			}
 		}
 
+	}
+}
+
+func cleanUp() {
+	files, err := ioutil.ReadDir("output/")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, file := range files {
+		err := os.Remove(fmt.Sprintf("output/%s", file.Name()))
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 }
