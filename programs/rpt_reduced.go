@@ -172,7 +172,7 @@ func rpt_reduced() Program {
 		Name:        "Reduced RPT 21.08",
 		Explanation: "Reduced RPT exercise aiming 4x week",
 		Weeks:       1,
-		Export:      true,
+		Export:      false,
 		Routine:     routine,
 	}
 
