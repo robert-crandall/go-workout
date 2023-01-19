@@ -23,14 +23,12 @@ func Markdown(program programs.Program) []byte {
 			lastWeek = true
 		}
 
-		output.addText("")
 		output.addHeader(3, fmt.Sprintf("Week %d", week))
 		weekNames, weekWorkouts := program.Routine(week)
 
 		daysPerWeek := len(weekNames)
 		for day := 0; day < daysPerWeek; day++ {
-			output.addText("") // blank line
-			output.addText(boldText(weekNames[day]))
+			output.addHeader(4, weekNames[day])
 
 			workoutDay := weekWorkouts[day]
 			for _, lift := range workoutDay {
@@ -51,15 +49,16 @@ func Markdown(program programs.Program) []byte {
 
 					if lastSet {
 						if lift.IncrementType == programs.IncrementWeightsPerSession {
-							addWeight = "(Add weight)"
+							addWeight = " (Add weight)"
 						} else if lastWeek && lift.IncrementType == programs.IncrementWeightsProgramComplete {
-							addWeight = "(Add weight)"
+							addWeight = " (Add weight)"
 						}
 					}
 
-					output.addText(fmt.Sprintf("  * %d%s @ %s %s", lift.Sets.SetList[set].Reps, amrap, weightText, addWeight))
+					output.addText(fmt.Sprintf("  * %d%s @ %s%s", lift.Sets.SetList[set].Reps, amrap, weightText, addWeight))
 				}
 			}
+			output.addBlankLine()
 		}
 	}
 
@@ -72,6 +71,7 @@ func (r *result) addHeader(level int, text string) {
 		prefix = prefix + "#"
 	}
 	r.output = r.output + fmt.Sprintf("%s %s\n", prefix, text)
+	r.addBlankLine()
 }
 
 func (r *result) addText(text string) {
@@ -85,6 +85,9 @@ func (r *result) addRow(rowText []string) {
 	r.output = r.output + fmt.Sprintf(" |\n")
 }
 
+func (r *result) addBlankLine() {
+	r.output = r.output + fmt.Sprintf("\n")
+}
 func boldText(text string) string {
 	return fmt.Sprintf("**%s**", text)
 }
