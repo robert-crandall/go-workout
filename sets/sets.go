@@ -6,11 +6,13 @@ import (
 
 type Sets struct {
 	SetList          []set
-	LastSetsIsAMRAP  bool    // Last set is As Many Reps as Possible
-	RestTimeSeconds  int     // Time between sets
-	setCount         int     // How many sets to perform
-	repCount         int     // How many reps to perform, or starting number for (reverse) pyramid
-	weightPercentage float64 // Percentage for weight, or starting percentage for (reverse) pyramid
+	Goal             Goal       // Goal for the workout
+	LiftScheme       LiftScheme // Scheme for the workout. 3x5, 3x8, etc. Can override sets and reps with options.
+	LastSetsIsAMRAP  bool       // Last set is As Many Reps as Possible // TODO - this should be private
+	RestTimeSeconds  int        // Time between sets // TODO - this should be private
+	setCount         int        // How many sets to perform
+	repCount         int        // How many reps to perform, or starting number for (reverse) pyramid
+	weightPercentage float64    // Percentage for weight, or starting percentage for (reverse) pyramid
 }
 
 type set struct {
@@ -20,14 +22,21 @@ type set struct {
 
 type Options func(s *Sets)
 
-func NewSets(opts ...Options) Sets {
-	s := Sets{}
+func NewSets(goal Goal, liftScheme LiftScheme, opts ...Options) Sets {
+	s := Sets{
+		Goal:       goal,
+		LiftScheme: liftScheme,
+	}
 
 	for _, opt := range opts {
 		opt(&s)
 	}
 
 	return s
+}
+
+func NewOptions() Options {
+	return func(s *Sets) {}
 }
 
 func WithSetCount(setCount int) Options {
@@ -55,36 +64,79 @@ func WithWeightPercentage(percentage float64) Options {
 	}
 }
 
-func WithLiftScheme(liftScheme LiftScheme) Options {
-	return func(s *Sets) {
-		switch liftScheme {
-		case ThreeByFive:
-			s.weightPercentage = s.weightPercentage - 0.05
-		default:
-			s.weightPercentage = s.weightPercentage
-		}
+func (s *Sets) setTargetWeight() {
+
+	if s.setCount == 0 {
+		s.setSetCount()
+	}
+
+	weightPercentage := percentageOf1RM(s.repCount)
+	weightPercentage = weightPercentage * 0.97
+
+	switch s.Goal {
+	case Maintain:
+		s.weightPercentage = weightPercentage - 0.05
+	case Increase:
+		s.weightPercentage = weightPercentage
+	case Lite:
+		s.weightPercentage = weightPercentage - 0.25
+	default:
+		s.weightPercentage = weightPercentage
 	}
 }
 
-func AutoSetWeight(goal Goal) Options {
-	return func(s *Sets) {
-		// Base weight is 97% of 1RM
-		weightPercentage := percentageOf1RM(s.repCount)
-		weightPercentage = weightPercentage * 0.97
-
-		switch goal {
-		case Maintain:
-			s.weightPercentage = weightPercentage - 0.05
-		case Increase:
-			s.weightPercentage = weightPercentage
-		case OneRM:
-			s.weightPercentage = weightPercentage - 0.15
-		case Lite:
-			s.weightPercentage = weightPercentage - 0.25
-		default:
-			s.weightPercentage = weightPercentage
-		}
+func (s *Sets) setRestTimer() {
+	switch s.Goal {
+	case Maintain:
+		s.RestTimeSeconds = 90
+	case Increase:
+		s.RestTimeSeconds = 120
+	case OneRM:
+		s.RestTimeSeconds = 300
+	case Lite:
+		s.RestTimeSeconds = 90
+	default:
+		s.RestTimeSeconds = 90
 	}
+}
+
+func (s *Sets) setSetCount() {
+	s.setCount = s.LiftScheme.Sets()
+}
+
+func (s *Sets) setRepCount() {
+	s.repCount = s.LiftScheme.Reps()
+}
+
+func (s Sets) GetProgram() Sets {
+
+	if s.setCount == 0 {
+		s.setSetCount()
+	}
+
+	if s.repCount == 0 {
+		s.setRepCount()
+	}
+
+	if s.weightPercentage == 0 {
+		s.setTargetWeight()
+	}
+
+	if s.RestTimeSeconds == 0 {
+		s.setRestTimer()
+	}
+
+	s = s.Static()
+
+	if s.LiftScheme.IsRPT() {
+		s = s.RPT(2, 0.05)
+	}
+
+	if s.LiftScheme.Is1RM() {
+		s = s.OneRepMaxTest()
+	}
+
+	return s
 }
 
 // Static configures the setList as it was defined by options
@@ -118,6 +170,22 @@ func (s Sets) RPT(repIncrease int, decrementPercent float64) Sets {
 		}
 		setList = append(setList, thisSet)
 	}
+	s.SetList = setList
+	return s
+}
+
+// RPT configures the setList following a Reverse Pyramid Scheme, increasing and decreasing by the variables
+func (s Sets) OneRepMaxTest() Sets {
+	var setList []set
+
+	for i := s.repCount; i > 0; i -= 2 {
+		thisSet := set{
+			Reps:             i,
+			WeightPercentage: truncateNum(percentageOf1RM(i) * 0.97),
+		}
+		setList = append(setList, thisSet)
+	}
+
 	s.SetList = setList
 	return s
 }
