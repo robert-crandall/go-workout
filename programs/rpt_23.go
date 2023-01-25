@@ -18,27 +18,70 @@ func rpt_23() Program {
 		var dayNames []string
 		var daysList []workoutDay
 
-		// Describes WHEN to do exercises
-		dayNames = append(dayNames, fmt.Sprintf("OHP %d", weeknum))
-		daysList = append(daysList, []workout{
-			getSquatDayWeek(1, weeknum),
-			getBenchDayWeek(1, weeknum),
-			basicThreeByFive(lifts.Ohp()),
-		})
+		var goal sets.Goal
 
-		dayNames = append(dayNames, fmt.Sprintf("Row %d", weeknum))
-		daysList = append(daysList, []workout{
-			getSquatDayWeek(2, weeknum),
-			getBenchDayWeek(2, weeknum),
-			basicThreeByFive(lifts.BarbellRow()),
-		})
+		// Create a new day goal based on the week number
+		switch weeknum {
+		case 1:
+			goal = sets.Maintain
+		case 2:
+			goal = sets.Increase
+		case 3:
+			goal = sets.OneRM
+		case 4:
+			goal = sets.Lite
+		}
 
-		dayNames = append(dayNames, fmt.Sprintf("Deadlift %d", weeknum))
-		daysList = append(daysList, []workout{
-			getSquatDayWeek(3, weeknum),
-			getBenchDayWeek(3, weeknum),
-			basicThreeByFive(lifts.Deadlift()),
-		})
+		weekName := goal.String()
+
+		pullWorkout := alternateLifts([]lifts.Lift{
+			lifts.Chipup(),
+			lifts.BarbellRow(), // Barbell row in second spot means it will be used on week 3
+		}, weeknum, 0, 1)
+
+		extraLifts := []lifts.Lift{
+			lifts.Deadlift(),
+			lifts.Ohp(),
+			pullWorkout,
+		}
+
+		// Lift schemes for each day of the week, except 1rm week
+		dailyLiftSchemes := []sets.LiftScheme{
+			sets.FiveByFive,
+			sets.ThreeByEight,
+			sets.RptFourSets,
+		}
+
+		var liftScheme, secondaryLiftScheme sets.LiftScheme
+
+		switch goal {
+		case sets.Maintain, sets.Increase:
+			secondaryLiftScheme = sets.ThreeByFive
+		case sets.OneRM:
+			liftScheme = sets.OneRepMaxTest
+			secondaryLiftScheme = sets.ThreeByFive
+		case sets.Lite:
+			secondaryLiftScheme = sets.ThreeByFive
+		}
+
+		daysPerWeek := 3
+		dayNum := 1
+
+		for dayNum <= daysPerWeek {
+			// Allow the 1rm max week to override the daily lift scheme
+			if !(liftScheme >= sets.FiveByFive) {
+				liftScheme = dailyLiftSchemes[dayNum-1]
+			}
+			extraLift := extraLifts[dayNum-1]
+
+			dayNames = append(dayNames, fmt.Sprintf("%s %s", weekName, liftScheme.String()))
+			daysList = append(daysList, []workout{
+				getPrimaryLift(lifts.Squat(), liftScheme, goal),
+				getPrimaryLift(lifts.Bench(), liftScheme, goal),
+				getPrimaryLift(extraLift, secondaryLiftScheme, goal),
+			})
+			dayNum = dayNum + 1
+		}
 
 		return dayNames, daysList
 
@@ -46,7 +89,7 @@ func rpt_23() Program {
 
 	program := Program{
 		Name:        "RPT 23.01",
-		Explanation: "A mix of RPT and 5x5 exercises",
+		Explanation: "A mix of RPT and 5x5 exercises. Includes OPTIONAL lite lifts for days when things are heavy.",
 		Weeks:       4,
 		Export:      true,
 		Routine:     routine,
@@ -55,126 +98,27 @@ func rpt_23() Program {
 	return program
 }
 
-// Get a squat workout given the day and week number
-func getSquatDayWeek(dayNum int, weekNum int) workout {
-	lift := lifts.Squat()
-	setCount := 5
-	startingReps := 4 + (dayNum - 1)
-	rptWeightStartingPercentage := 0.8
-	strengthWeekWeightPercentage := 0.85
-	resetWeekWeightPercentage := 0.65
-
-	if weekNum == 2 {
-		rptWeightStartingPercentage += 0.05
-	}
-
+// Get a primary workout given the liftScheme and goal
+func getPrimaryLift(lift lifts.Lift, liftScheme sets.LiftScheme, goal sets.Goal) workout {
 	var thisSets sets.Sets
+	var options sets.Options
 
-	switch weekNum {
-	case 1:
-		thisSets = sets.NewSets(
-			sets.WithSetCount(setCount),
-			sets.WithRepCount(startingReps),
-			sets.WithRestTimer(90),
-			sets.WithWeightPercentage(rptWeightStartingPercentage),
-		).RPT(2, 0.05)
-	case 2:
-		thisSets = sets.NewSets(
-			sets.WithSetCount(setCount),
-			sets.WithRepCount(startingReps),
-			sets.WithRestTimer(120),
-			sets.WithWeightPercentage(rptWeightStartingPercentage),
-		).RPT(2, 0.05)
-	case 3: // Simple 5x5 for strength week
-		thisSets = sets.NewSets(
-			sets.WithSetCount(5),
-			sets.WithRepCount(5),
-			sets.WithWeightPercentage(strengthWeekWeightPercentage),
-			sets.WithRestTimer(120),
-		).Static()
-	case 4: // Rest Week
-		thisSets = sets.NewSets(
-			sets.WithSetCount(5),
-			sets.WithRepCount(5),
-			sets.WithWeightPercentage(resetWeekWeightPercentage),
-			sets.WithRestTimer(90),
-		).Static()
+	options = sets.NewOptions()
+
+	// Set rep count for RPT programs
+	if liftScheme.IsRPT() {
+		if lift.Target == lifts.TargetLower {
+			options = sets.WithRepCount(4)
+		} else {
+			options = sets.WithRepCount(6)
+		}
 	}
+
+	thisSets = sets.NewSets(goal, liftScheme, options)
 
 	return workout{
 		Lift:          lift,
 		IncrementType: IncrementWeightsOff,
-		Sets:          thisSets,
-	}
-}
-
-// Get a bench workout given the day and week number
-func getBenchDayWeek(dayNum int, weekNum int) workout {
-	lift := lifts.Bench()
-	setCount := 5
-	startingReps := 6 + (dayNum - 1)
-	rptWeightStartingPercentage := 0.75
-	strengthWeekWeightPercentage := 0.85
-	resetWeekWeightPercentage := 0.65
-
-	if weekNum == 2 {
-		rptWeightStartingPercentage += 0.05
-	}
-
-	var thisSets sets.Sets
-
-	switch weekNum {
-	case 1:
-		thisSets = sets.NewSets(
-			sets.WithSetCount(setCount),
-			sets.WithRepCount(startingReps),
-			sets.WithRestTimer(90),
-			sets.WithWeightPercentage(rptWeightStartingPercentage),
-		).RPT(2, 0.05)
-	case 2:
-		thisSets = sets.NewSets(
-			sets.WithSetCount(setCount),
-			sets.WithRepCount(startingReps),
-			sets.WithRestTimer(120),
-			sets.WithWeightPercentage(rptWeightStartingPercentage),
-		).RPT(2, 0.05)
-	case 3: // Simple 5x5 for strength week
-		thisSets = sets.NewSets(
-			sets.WithSetCount(5),
-			sets.WithRepCount(5),
-			sets.WithWeightPercentage(strengthWeekWeightPercentage),
-			sets.WithRestTimer(120),
-		).Static()
-	case 4: // Rest Week
-		thisSets = sets.NewSets(
-			sets.WithSetCount(5),
-			sets.WithRepCount(5),
-			sets.WithWeightPercentage(resetWeekWeightPercentage),
-			sets.WithRestTimer(90),
-		).Static()
-	}
-
-	return workout{
-		Lift:          lift,
-		IncrementType: IncrementWeightsOff,
-		Sets:          thisSets,
-	}
-}
-
-// Get a bench workout given the day and week number
-func basicThreeByFive(lift lifts.Lift) workout {
-
-	workoutPercentage := 0.85
-	thisSets := sets.NewSets(
-		sets.WithSetCount(3),
-		sets.WithRepCount(5),
-		sets.WithWeightPercentage(workoutPercentage),
-		sets.WithRestTimer(90),
-	).Static()
-
-	return workout{
-		Lift:          lift,
-		IncrementType: IncrementWeightsOff,
-		Sets:          thisSets,
+		Sets:          thisSets.GetProgram(),
 	}
 }
