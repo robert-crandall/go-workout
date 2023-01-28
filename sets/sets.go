@@ -64,24 +64,22 @@ func WithWeightPercentage(percentage float64) Options {
 	}
 }
 
-func (s *Sets) setTargetWeight() {
-
-	if s.setCount == 0 {
-		s.setSetCount()
+func (s *Sets) goalWeight(reps int) float64 {
+	if s.weightPercentage > 0 {
+		return s.weightPercentage
 	}
-
-	weightPercentage := percentageOf1RM(s.repCount)
-	weightPercentage = weightPercentage * 0.97
 
 	switch s.Goal {
 	case Maintain:
-		s.weightPercentage = weightPercentage - 0.05
+		return percentageOf1RM(reps + 2)
 	case Increase:
-		s.weightPercentage = weightPercentage
+		return percentageOf1RM(reps + 1)
+	case OneRM:
+		return percentageOf1RM(reps + 1)
 	case Lite:
-		s.weightPercentage = weightPercentage - 0.25
+		return percentageOf1RM(reps + 4)
 	default:
-		s.weightPercentage = weightPercentage
+		return percentageOf1RM(reps)
 	}
 }
 
@@ -108,6 +106,10 @@ func (s *Sets) setRepCount() {
 	s.repCount = s.LiftScheme.Reps()
 }
 
+func (s *Sets) setLastSetIsAmrap() {
+	s.LastSetsIsAMRAP = true
+}
+
 func (s Sets) GetProgram() Sets {
 
 	if s.setCount == 0 {
@@ -116,10 +118,6 @@ func (s Sets) GetProgram() Sets {
 
 	if s.repCount == 0 {
 		s.setRepCount()
-	}
-
-	if s.weightPercentage == 0 {
-		s.setTargetWeight()
 	}
 
 	if s.RestTimeSeconds == 0 {
@@ -133,6 +131,7 @@ func (s Sets) GetProgram() Sets {
 	}
 
 	if s.LiftScheme.Is1RM() {
+		s.setLastSetIsAmrap()
 		s = s.OneRepMaxTest()
 	}
 
@@ -151,7 +150,7 @@ func (s Sets) Static(overrideSetCount ...int) Sets {
 	for i := 0; i < setCount; i++ {
 		thisSet := set{
 			Reps:             s.repCount,
-			WeightPercentage: truncateNum(s.weightPercentage),
+			WeightPercentage: s.goalWeight(s.repCount),
 		}
 		setList = append(setList, thisSet)
 	}
@@ -166,7 +165,7 @@ func (s Sets) RPT(repIncrease int, decrementPercent float64) Sets {
 	for i := 0; i < s.setCount; i++ {
 		thisSet := set{
 			Reps:             s.repCount + (repIncrease * i),
-			WeightPercentage: truncateNum(s.weightPercentage - (decrementPercent * float64(i))),
+			WeightPercentage: s.goalWeight(s.repCount + (repIncrease * i)),
 		}
 		setList = append(setList, thisSet)
 	}
@@ -174,14 +173,14 @@ func (s Sets) RPT(repIncrease int, decrementPercent float64) Sets {
 	return s
 }
 
-// RPT configures the setList following a Reverse Pyramid Scheme, increasing and decreasing by the variables
+// Aim to to 1 set at 100% of 1RM
 func (s Sets) OneRepMaxTest() Sets {
 	var setList []set
 
 	for i := s.repCount; i > 0; i -= 2 {
 		thisSet := set{
 			Reps:             i,
-			WeightPercentage: truncateNum(percentageOf1RM(i) * 0.97),
+			WeightPercentage: s.goalWeight(i),
 		}
 		setList = append(setList, thisSet)
 	}
@@ -198,6 +197,8 @@ func truncateNum(num float64) (result float64) {
 // Returns a percentage of 1RM given the number of reps
 func percentageOf1RM(reps int) float64 {
 	// I realize this is something like (1 - 0.027*reps). I'm keeping it as a lookup table for easy understanding.
+	// Source of table is https://strengthlevel.com/one-rep-max-calculator/
+	// It seemed to change last time I compared values. Either that or I grabbed from a different source initially.
 	switch reps {
 	case 1:
 		return 1
@@ -206,22 +207,28 @@ func percentageOf1RM(reps int) float64 {
 	case 3:
 		return 0.94
 	case 4:
-		return 0.91
+		return 0.92
 	case 5:
-		return 0.88
+		return 0.89
 	case 6:
-		return 0.85
+		return 0.86
 	case 7:
-		return 0.82
+		return 0.83
 	case 8:
-		return 0.79
+		return 0.81
 	case 9:
-		return 0.76
+		return 0.78
 	case 10:
-		return 0.73
+		return 0.75
 	case 11:
-		return 0.70
+		return 0.73
 	case 12:
+		return 0.71
+	case 13:
+		return 0.70
+	case 14:
+		return 0.68
+	case 15:
 		return 0.67
 	default:
 		return 0.65
