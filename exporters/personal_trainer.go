@@ -128,7 +128,7 @@ func PersonalTrainerApp(program programs.Program) []byte {
 				percentageList := []float64{}
 
 				lastSetAmrap := 0
-				if session.Sets.LastSetsIsAMRAP {
+				if session.LastSetIsAmrap {
 					lastSetAmrap = 1
 				}
 				for set := 0; set < len(session.Sets.SetList); set++ {
@@ -151,7 +151,7 @@ func PersonalTrainerApp(program programs.Program) []byte {
 					Resttime1:       session.Sets.RestTimeSeconds,
 					WeightskgList:   weightksList,
 					RepsList:        repsList,
-					LastsetsisAMRAP: session.Sets.LastSetsIsAMRAP,
+					LastsetsisAMRAP: session.LastSetIsAmrap,
 					IncrementType:   incrementType,
 					WeightslbList:   weightslbList,
 					PercentageList:  percentageList,

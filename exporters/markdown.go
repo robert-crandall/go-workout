@@ -43,7 +43,7 @@ func Markdown(program programs.Program) []byte {
 
 					weightText = fmt.Sprintf("%v%%", truncateNum(lift.Sets.SetList[set].WeightPercentage*100))
 
-					if lift.Sets.LastSetsIsAMRAP {
+					if lift.LastSetIsAmrap {
 						amrap = "+"
 					}
 

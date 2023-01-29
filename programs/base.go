@@ -16,9 +16,10 @@ type Program struct {
 type workoutDay []workout
 
 type workout struct {
-	Lift          lifts.Lift
-	Sets          sets.Sets
-	IncrementType int
+	Lift           lifts.Lift
+	Sets           sets.Sets
+	IncrementType  int
+	LastSetIsAmrap bool
 }
 
 var (

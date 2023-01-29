@@ -8,7 +8,6 @@ type Sets struct {
 	SetList          []set
 	Goal             Goal       // Goal for the workout
 	LiftScheme       LiftScheme // Scheme for the workout. 3x5, 3x8, etc. Can override sets and reps with options.
-	LastSetsIsAMRAP  bool       // Last set is As Many Reps as Possible // TODO - this should be private
 	RestTimeSeconds  int        // Time between sets // TODO - this should be private
 	setCount         int        // How many sets to perform
 	repCount         int        // How many reps to perform, or starting number for (reverse) pyramid
@@ -106,10 +105,6 @@ func (s *Sets) setRepCount() {
 	s.repCount = s.LiftScheme.Reps()
 }
 
-func (s *Sets) setLastSetIsAmrap() {
-	s.LastSetsIsAMRAP = true
-}
-
 func (s Sets) GetProgram() Sets {
 
 	if s.setCount == 0 {
@@ -131,7 +126,6 @@ func (s Sets) GetProgram() Sets {
 	}
 
 	if s.LiftScheme.Is1RM() {
-		s.setLastSetIsAmrap()
 		s = s.OneRepMaxTest()
 	}
 

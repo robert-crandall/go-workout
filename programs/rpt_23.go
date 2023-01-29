@@ -81,6 +81,7 @@ func rpt_23() Program {
 
 			var workout workoutDay
 
+			// Standard case - every day workout for each week. Override below.
 			workout = workoutDay{
 				getPrimaryLift(lifts.Squat(), liftScheme, goal),
 				getPrimaryLift(lifts.Bench(), liftScheme, goal),
@@ -149,9 +150,15 @@ func getPrimaryLift(lift lifts.Lift, liftScheme sets.LiftScheme, goal sets.Goal)
 
 	thisSets = sets.NewSets(goal, liftScheme, options)
 
+	lastSetIsAmrap := false
+	if goal == sets.OneRM {
+		lastSetIsAmrap = true
+	}
+
 	return workout{
-		Lift:          lift,
-		IncrementType: IncrementWeightsOff,
-		Sets:          thisSets.GetProgram(),
+		Lift:           lift,
+		IncrementType:  IncrementWeightsOff,
+		Sets:           thisSets.GetProgram(),
+		LastSetIsAmrap: lastSetIsAmrap,
 	}
 }
