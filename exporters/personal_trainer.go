@@ -174,6 +174,7 @@ func PersonalTrainerApp(program programs.Program) []byte {
 	workout.DaysList = daysList
 	workout.DayNames = dayNames
 	workout.setDayNumber(len(dayNames))
+	workout.setDaysPerWeek(len(dayNames) / program.Weeks)
 
 	workoutJSON, err := json.MarshalIndent(workout, "", "  ")
 
@@ -198,13 +199,17 @@ func (w *PTAWorkout) fillDefaults() {
 	}
 }
 
+// setDaysPerWeek sets values that should be workouts per week
+func (w *PTAWorkout) setDaysPerWeek(daysPerWeek int) {
+	w.Noofdays = daysPerWeek    // Set to days per week
+	w.ProgramDays = daysPerWeek // Set to days per week
+	w.Realdays = daysPerWeek    // Set to days per week
+}
+
 // SetDayNumber sets required values in workout to the number of days in a program
 func (w *PTAWorkout) setDayNumber(days int) {
-	w.Noofdays = days
 	w.Days = days
-	w.ProgramDays = days
 	w.WhenToUpdateWeights = days
-	w.Realdays = days
 
 	expanded := []bool{}
 
