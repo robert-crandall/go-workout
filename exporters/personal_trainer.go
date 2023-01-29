@@ -148,7 +148,7 @@ func PersonalTrainerApp(program programs.Program) []byte {
 				}
 
 				session := DaysList{
-					Resttime1:       session.Sets.RestTimeSeconds,
+					Resttime1:       session.RestTimeSeconds,
 					WeightskgList:   weightksList,
 					RepsList:        repsList,
 					LastsetsisAMRAP: session.LastSetIsAmrap,

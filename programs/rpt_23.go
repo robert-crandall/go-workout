@@ -155,10 +155,13 @@ func getPrimaryLift(lift lifts.Lift, liftScheme sets.LiftScheme, goal sets.Goal)
 		lastSetIsAmrap = true
 	}
 
+	restTime := setRestTimer(goal)
+
 	return workout{
-		Lift:           lift,
-		IncrementType:  IncrementWeightsOff,
-		Sets:           thisSets.GetProgram(),
-		LastSetIsAmrap: lastSetIsAmrap,
+		Lift:            lift,
+		IncrementType:   IncrementWeightsOff,
+		Sets:            thisSets.GetProgram(),
+		LastSetIsAmrap:  lastSetIsAmrap,
+		RestTimeSeconds: restTime,
 	}
 }

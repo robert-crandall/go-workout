@@ -8,7 +8,6 @@ type Sets struct {
 	SetList          []set
 	Goal             Goal       // Goal for the workout
 	LiftScheme       LiftScheme // Scheme for the workout. 3x5, 3x8, etc. Can override sets and reps with options.
-	RestTimeSeconds  int        // Time between sets // TODO - this should be private
 	setCount         int        // How many sets to perform
 	repCount         int        // How many reps to perform, or starting number for (reverse) pyramid
 	weightPercentage float64    // Percentage for weight, or starting percentage for (reverse) pyramid
@@ -44,12 +43,6 @@ func WithSetCount(setCount int) Options {
 	}
 }
 
-func WithRestTimer(restTimeSeconds int) Options {
-	return func(s *Sets) {
-		s.RestTimeSeconds = restTimeSeconds
-	}
-}
-
 func WithRepCount(reps int) Options {
 	return func(s *Sets) {
 		s.repCount = reps
@@ -82,21 +75,6 @@ func (s *Sets) goalWeight(reps int) float64 {
 	}
 }
 
-func (s *Sets) setRestTimer() {
-	switch s.Goal {
-	case Maintain:
-		s.RestTimeSeconds = 90
-	case Increase:
-		s.RestTimeSeconds = 120
-	case OneRM:
-		s.RestTimeSeconds = 300
-	case Lite:
-		s.RestTimeSeconds = 90
-	default:
-		s.RestTimeSeconds = 90
-	}
-}
-
 func (s *Sets) setSetCount() {
 	s.setCount = s.LiftScheme.Sets()
 }
@@ -113,10 +91,6 @@ func (s Sets) GetProgram() Sets {
 
 	if s.repCount == 0 {
 		s.setRepCount()
-	}
-
-	if s.RestTimeSeconds == 0 {
-		s.setRestTimer()
 	}
 
 	s = s.Static()
