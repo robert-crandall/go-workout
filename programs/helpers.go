@@ -24,7 +24,7 @@ func setRestTimer(goal sets.Goal) int {
 	case sets.Increase:
 		return 120
 	case sets.OneRM:
-		return 300
+		return 180
 	case sets.Lite:
 		return 90
 	default:
