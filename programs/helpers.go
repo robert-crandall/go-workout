@@ -17,7 +17,7 @@ func alternateLifts(lifts []lifts.Lift, weeknum, daynum, daysPerWeek int) lifts.
 	return lifts[absoluteDay%len(lifts)]
 }
 
-func setRestTimer(goal sets.Goal) int {
+func getRestTimer(goal sets.Goal) int {
 	switch goal {
 	case sets.Maintain:
 		return 90
