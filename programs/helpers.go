@@ -1,6 +1,7 @@
 package programs
 
 import (
+	"fmt"
 	"main/lifts"
 	"main/sets"
 )
@@ -20,11 +21,11 @@ func alternateLifts(lifts []lifts.Lift, weeknum, daynum, daysPerWeek int) lifts.
 func getRestTimer(goal sets.Goal) int {
 	switch goal {
 	case sets.Maintain:
-		return 90
-	case sets.Increase:
 		return 120
+	case sets.Increase:
+		return 150
 	case sets.OneRM:
-		return 180
+		return 300
 	case sets.Lite:
 		return 90
 	default:
@@ -64,4 +65,27 @@ func getPrimaryLiftByGoal(lift lifts.Lift, liftScheme sets.LiftScheme, goal sets
 		LastSetIsAmrap:  lastSetIsAmrap,
 		RestTimeSeconds: restTime,
 	}
+}
+
+type WorkoutWeek struct {
+	dayNames []string
+	daysList []workoutDay
+}
+
+func (d *WorkoutWeek) addWorkoutDay(workout workoutDay) {
+	d.daysList = append(d.daysList, workout)
+	firstLift := workout[0].Lift
+	firstScheme := workout[0].Sets.LiftScheme
+	goal := workout[0].Sets.Goal
+
+	dayName := fmt.Sprintf("%s %s %s", firstLift.Name, firstScheme.String(), goal.String())
+	d.dayNames = append(d.dayNames, dayName)
+}
+
+func (d *WorkoutWeek) getWorkouts() []workoutDay {
+	return d.daysList
+}
+
+func (d *WorkoutWeek) getDayNames() []string {
+	return d.dayNames
 }
