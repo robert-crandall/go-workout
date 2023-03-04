@@ -7,11 +7,11 @@ import (
 )
 
 func init() {
-	programs = append(programs, rpt_2301())
+	programs = append(programs, rpt_2303())
 }
 
 // Workout program designed for squats and bench everyday, deadlift and OHP as accessory lifts
-func rpt_2301() Program {
+func rpt_2303() Program {
 
 	routine := func(weeknum int) ([]string, []workoutDay) {
 
@@ -116,8 +116,8 @@ func rpt_2301() Program {
 	}
 
 	program := Program{
-		Name:        "RPT 23.01",
-		Explanation: "A mix of RPT and 5x5 exercises. Includes OPTIONAL lite lifts for days when things are heavy.",
+		Name:        "RPT 23.03",
+		Explanation: "A mix of RPT and 5x5 exercises, 4 day split. Includes OPTIONAL lite lifts for days when things are heavy.",
 		Weeks:       4,
 		Export:      true,
 		Routine:     routine,

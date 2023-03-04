@@ -31,3 +31,37 @@ func getRestTimer(goal sets.Goal) int {
 		return 90
 	}
 }
+
+// Get a primary workout given the liftScheme and goal
+func getPrimaryLiftByGoal(lift lifts.Lift, liftScheme sets.LiftScheme, goal sets.Goal) workout {
+	var thisSets sets.Sets
+	var options sets.Options
+
+	options = sets.NewOptions()
+
+	// Set rep count for RPT programs
+	if liftScheme.IsRPT() {
+		if lift.Target == lifts.TargetLower {
+			options = sets.WithRepCount(4)
+		} else {
+			options = sets.WithRepCount(6)
+		}
+	}
+
+	thisSets = sets.NewSets(goal, liftScheme, options)
+
+	lastSetIsAmrap := false
+	if goal == sets.OneRM {
+		lastSetIsAmrap = true
+	}
+
+	restTime := getRestTimer(goal)
+
+	return workout{
+		Lift:            lift,
+		IncrementType:   IncrementWeightsOff,
+		Sets:            thisSets.GetProgram(),
+		LastSetIsAmrap:  lastSetIsAmrap,
+		RestTimeSeconds: restTime,
+	}
+}
