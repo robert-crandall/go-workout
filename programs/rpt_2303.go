@@ -1,6 +1,7 @@
 package programs
 
 import (
+	"fmt"
 	"main/lifts"
 	"main/sets"
 )
@@ -64,6 +65,7 @@ func rpt_2303() Program {
 
 			// Days 1 & 3, ie Monday and Thursday
 			workoutWeek.addWorkoutDay(
+				fmt.Sprintf("%s %s %s", "Squat", liftScheme.String(), goal.String()),
 				workoutDay{
 					getPrimaryLiftByGoal(lifts.Squat(), liftScheme, goal),
 					getPrimaryLiftByGoal(lifts.Bench(), liftScheme, goal),
@@ -73,6 +75,7 @@ func rpt_2303() Program {
 
 			// Days 2 & 4, ie Tuesday and Friday
 			workoutWeek.addWorkoutDay(
+				fmt.Sprintf("%s %s %s", "Deadlift", secondaryLiftScheme.String(), goal.String()),
 				workoutDay{
 					getPrimaryLiftByGoal(lifts.Deadlift(), secondaryLiftScheme, goal),
 					getPrimaryLiftByGoal(lifts.Ohp(), liftScheme, goal),
