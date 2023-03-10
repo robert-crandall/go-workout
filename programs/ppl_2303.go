@@ -23,16 +23,16 @@ func ppl_2303() Program {
 		// Set weekly goals
 		switch weeknum {
 		case 1:
-			goal = sets.Increase
+			goal = sets.Maintain
 			dayName = "Strength"
 		case 2:
-			goal = sets.Increase
+			goal = sets.Maintain
 			dayName = "Volume"
 		case 3:
-			goal = sets.Increase
+			goal = sets.Maintain
 			dayName = "RPT"
 		case 4:
-			goal = sets.Increase
+			goal = sets.Maintain
 			dayName = "OneRM"
 		case 5:
 			goal = sets.Lite
