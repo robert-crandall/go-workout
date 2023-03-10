@@ -1,7 +1,6 @@
 package programs
 
 import (
-	"fmt"
 	"main/lifts"
 	"main/sets"
 )
@@ -72,13 +71,13 @@ type WorkoutWeek struct {
 	daysList []workoutDay
 }
 
-func (d *WorkoutWeek) addWorkoutDay(workout workoutDay) {
+func (d *WorkoutWeek) addWorkoutDay(dayName string, workout workoutDay) {
 	d.daysList = append(d.daysList, workout)
-	firstLift := workout[0].Lift
-	firstScheme := workout[0].Sets.LiftScheme
-	goal := workout[0].Sets.Goal
+	// firstLift := workout[0].Lift
+	// firstScheme := workout[0].Sets.LiftScheme
+	// goal := workout[0].Sets.Goal
 
-	dayName := fmt.Sprintf("%s %s %s", firstLift.Name, firstScheme.String(), goal.String())
+	// dayName := fmt.Sprintf("%s %s %s", firstLift.Name, firstScheme.String(), goal.String())
 	d.dayNames = append(d.dayNames, dayName)
 }
 
