@@ -83,7 +83,7 @@ func ppl_2303() Program {
 			verticalPull := alternateLifts([]lifts.Lift{
 				lifts.Chipup(),
 				lifts.Pullup(),
-			}, dayNum, 0, 1)
+			}, weeknum, 0, 1)
 
 			workoutWeek.addWorkoutDay(
 				fmt.Sprintf("Push Day %s", dayName),
@@ -101,7 +101,6 @@ func ppl_2303() Program {
 				},
 			)
 
-			// Pull day
 			workoutWeek.addWorkoutDay(
 				fmt.Sprintf("Pull Day %s", dayName),
 				workoutDay{
