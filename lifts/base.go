@@ -8,6 +8,6 @@ type Lift struct {
 	LiftSchemes []LiftScheme
 }
 
-func (l *Lift) addLiftScheme(liftSchemes []LiftScheme) {
+func (l *Lift) AddLiftSchemes(liftSchemes []LiftScheme) {
 	l.LiftSchemes = append(l.LiftSchemes, liftSchemes...)
 }
