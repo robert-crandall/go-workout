@@ -38,7 +38,7 @@ func getRestTimer(goal sets.Goal) int {
 }
 
 // Get a primary workout given the liftScheme and goal
-func getPrimaryLiftByGoal(lift lifts.Lift, liftScheme sets.LiftScheme, goal sets.Goal) workout {
+func getPrimaryLiftByGoal(lift lifts.Lift, liftScheme lifts.LiftScheme, goal sets.Goal) workout {
 	var thisSets sets.Sets
 	var options sets.Options
 

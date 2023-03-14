@@ -1,4 +1,4 @@
-package sets
+package lifts
 
 import (
 	"fmt"

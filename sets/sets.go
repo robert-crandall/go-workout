@@ -1,16 +1,17 @@
 package sets
 
 import (
+	"main/lifts"
 	"math"
 )
 
 type Sets struct {
 	SetList          []set
-	Goal             Goal       // Goal for the workout
-	LiftScheme       LiftScheme // Scheme for the workout. 3x5, 3x8, etc. Can override sets and reps with options.
-	setCount         int        // How many sets to perform
-	repCount         int        // How many reps to perform, or starting number for (reverse) pyramid
-	weightPercentage float64    // Percentage for weight, or starting percentage for (reverse) pyramid
+	Goal             Goal             // Goal for the workout
+	LiftScheme       lifts.LiftScheme // Scheme for the workout. 3x5, 3x8, etc. Can override sets and reps with options.
+	setCount         int              // How many sets to perform
+	repCount         int              // How many reps to perform, or starting number for (reverse) pyramid
+	weightPercentage float64          // Percentage for weight, or starting percentage for (reverse) pyramid
 }
 
 type set struct {
@@ -20,7 +21,7 @@ type set struct {
 
 type Options func(s *Sets)
 
-func NewSets(goal Goal, liftScheme LiftScheme, opts ...Options) Sets {
+func NewSets(goal Goal, liftScheme lifts.LiftScheme, opts ...Options) Sets {
 	s := Sets{
 		Goal:       goal,
 		LiftScheme: liftScheme,

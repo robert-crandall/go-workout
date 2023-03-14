@@ -48,10 +48,10 @@ func rpt_2301() Program {
 		}
 
 		// Lift schemes for each day of the week, except 1rm week. Again, easier to think of this as Monday, Wednesday, Friday schemes.
-		dailyLiftSchemes := []sets.LiftScheme{
-			sets.FiveByFive,   // Monday
-			sets.ThreeByEight, // Wednesday
-			sets.RptFourSets,  // Friday
+		dailyLiftSchemes := []lifts.LiftScheme{
+			lifts.FiveByFive,   // Monday
+			lifts.ThreeByEight, // Wednesday
+			lifts.RptFourSets,  // Friday
 		}
 
 		daysPerWeek := 3
@@ -60,17 +60,17 @@ func rpt_2301() Program {
 		for dayNum <= daysPerWeek {
 			// Get the lift schemes for the lifts. Want to keep 3x5 for secondary lifts.
 			liftScheme := dailyLiftSchemes[dayNum-1]
-			secondaryLiftScheme := sets.ThreeByFive
+			secondaryLiftScheme := lifts.ThreeByFive
 
 			// Override lift scheme for 1rm week
 			if goal == sets.OneRM {
-				liftScheme = sets.OneRepMaxTest
-				secondaryLiftScheme = sets.OneRepMaxTest
+				liftScheme = lifts.OneRepMaxTest
+				secondaryLiftScheme = lifts.OneRepMaxTest
 			}
 
 			// No point in having lots of sets on lite week. Just do 5x5.
 			if goal == sets.Lite {
-				liftScheme = sets.FiveByFive
+				liftScheme = lifts.FiveByFive
 			}
 
 			extraLift := extraLifts[dayNum-1]
@@ -97,7 +97,7 @@ func rpt_2301() Program {
 					}
 				case 3:
 					goal = sets.Lite // Set the goal to lite for the last day of 1RM week
-					liftScheme = sets.FiveByFive
+					liftScheme = lifts.FiveByFive
 					workout = workoutDay{
 						getPrimaryLiftByGoal(lifts.Squat(), liftScheme, goal),
 						getPrimaryLiftByGoal(lifts.Bench(), liftScheme, goal),

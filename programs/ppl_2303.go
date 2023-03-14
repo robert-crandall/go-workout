@@ -40,39 +40,39 @@ func ppl_2303() Program {
 		}
 
 		// Instead of thinking how to schedule days, I'm describing the different lift schemes based on the lift
-		benchLiftSchemes := []sets.LiftScheme{
-			sets.FiveByFive,
-			sets.ThreeByEight,
-			sets.RptFourSets,
-			sets.OneRepMaxTest,
+		benchLiftSchemes := []lifts.LiftScheme{
+			lifts.FiveByFive,
+			lifts.ThreeByEight,
+			lifts.RptFourSets,
+			lifts.OneRepMaxTest,
 		}
 
-		squatLiftSchemes := []sets.LiftScheme{
-			sets.FiveByFive,
-			sets.ThreeByEight,
-			sets.RptFourSets,
-			sets.OneRepMaxTest,
+		squatLiftSchemes := []lifts.LiftScheme{
+			lifts.FiveByFive,
+			lifts.ThreeByEight,
+			lifts.RptFourSets,
+			lifts.OneRepMaxTest,
 		}
 
-		deadliftLiftSchemes := []sets.LiftScheme{
-			sets.ThreeByFive,
-			sets.ThreeByFive,
-			sets.ThreeByFive,
-			sets.OneRepMaxTest,
+		deadliftLiftSchemes := []lifts.LiftScheme{
+			lifts.ThreeByFive,
+			lifts.ThreeByFive,
+			lifts.ThreeByFive,
+			lifts.OneRepMaxTest,
 		}
 
-		ohpLiftSchemes := []sets.LiftScheme{
-			sets.ThreeByFive, // 3x5 in order to keep workouts short
-			sets.ThreeByEight,
-			sets.RptFourSets,
-			sets.OneRepMaxTest,
+		ohpLiftSchemes := []lifts.LiftScheme{
+			lifts.ThreeByFive, // 3x5 in order to keep workouts short
+			lifts.ThreeByEight,
+			lifts.RptFourSets,
+			lifts.OneRepMaxTest,
 		}
 
-		barbellrowLiftSchemes := []sets.LiftScheme{
-			sets.ThreeByFive, // 3x5 in order to keep workouts short
-			sets.ThreeByEight,
-			sets.RptFourSets,
-			sets.OneRepMaxTest,
+		barbellrowLiftSchemes := []lifts.LiftScheme{
+			lifts.ThreeByFive, // 3x5 in order to keep workouts short
+			lifts.ThreeByEight,
+			lifts.RptFourSets,
+			lifts.OneRepMaxTest,
 		}
 
 		loopsPerWeek := 1
@@ -105,7 +105,7 @@ func ppl_2303() Program {
 				fmt.Sprintf("Pull Day %s", dayName),
 				workoutDay{
 					getPrimaryLiftByGoal(lifts.BarbellRow(), barbellrowLiftSchemes[liftScheme], goal),
-					getPrimaryLiftByGoal(verticalPull, sets.ThreeByFive, goal),
+					getPrimaryLiftByGoal(verticalPull, lifts.ThreeByFive, goal),
 				},
 			)
 		}
