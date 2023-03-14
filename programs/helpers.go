@@ -17,6 +17,11 @@ func alternateLifts(lifts []lifts.Lift, weeknum, daynum, daysPerWeek int) lifts.
 	return lifts[absoluteDay%len(lifts)]
 }
 
+// Give the workout nunmber given a week and day
+func workoutNum(weeknum, daynum, daysPerWeek int) int {
+	return weeknum*daysPerWeek + daynum
+}
+
 func getRestTimer(goal sets.Goal) int {
 	switch goal {
 	case sets.Maintain:
@@ -73,12 +78,12 @@ type WorkoutWeek struct {
 
 func (d *WorkoutWeek) addWorkoutDay(dayName string, workout workoutDay) {
 	d.daysList = append(d.daysList, workout)
-	// firstLift := workout[0].Lift
-	// firstScheme := workout[0].Sets.LiftScheme
-	// goal := workout[0].Sets.Goal
-
-	// dayName := fmt.Sprintf("%s %s %s", firstLift.Name, firstScheme.String(), goal.String())
 	d.dayNames = append(d.dayNames, dayName)
+}
+
+func (d *WorkoutWeek) resetWorkoutDays() {
+	d.daysList = []workoutDay{}
+	d.dayNames = []string{}
 }
 
 func (d *WorkoutWeek) getWorkouts() []workoutDay {
