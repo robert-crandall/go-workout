@@ -13,8 +13,9 @@ func init() {
 // Workout program designed for squats and bench everyday, deadlift and OHP as accessory lifts
 func rpt_2301() Program {
 
-	routine := func(weeknum int) ([]string, []workoutDay) {
+	routine := func(weeknum int, programSet *ProgramSet) ([]string, []workoutDay) {
 
+		_ = programSet
 		var dayNames []string
 		var daysList []workoutDay
 
