@@ -17,6 +17,8 @@ func Markdown(program programs.Program) []byte {
 	output.addHeader(1, program.Name)
 	output.addHeader(2, program.Explanation)
 
+	programSet := programs.NewProgramSet()
+
 	for week := 1; week <= program.Weeks; week++ {
 		lastWeek := false
 		if week == program.Weeks {
@@ -24,7 +26,7 @@ func Markdown(program programs.Program) []byte {
 		}
 
 		output.addHeader(3, fmt.Sprintf("Week %d", week))
-		weekNames, weekWorkouts := program.Routine(week)
+		weekNames, weekWorkouts := program.Routine(week, &programSet)
 
 		daysPerWeek := len(weekNames)
 		for day := 0; day < daysPerWeek; day++ {

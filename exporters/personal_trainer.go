@@ -90,11 +90,12 @@ func PersonalTrainerApp(program programs.Program) []byte {
 
 	var dayNames []string // "Squat Day 1" etc
 	var daysList [][]DaysList
+	programSet := programs.NewProgramSet()
 
 	// Programs are week based, so loop through all weeks to generate weights
 	for week := 1; week <= program.Weeks; week++ {
 
-		weekNames, weekWorkouts := program.Routine(week) // ["Squat Day 1", "Bench Day 1"], [[session, session], [session, session]]
+		weekNames, weekWorkouts := program.Routine(week, &programSet) // ["Squat Day 1", "Bench Day 1"], [[session, session], [session, session]]
 
 		for day := 0; day < len(weekNames); day++ {
 
