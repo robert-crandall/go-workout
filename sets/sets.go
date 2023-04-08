@@ -62,18 +62,8 @@ func (s *Sets) goalWeight(reps int) float64 {
 		return s.weightPercentage
 	}
 
-	switch s.Goal {
-	case Maintain:
-		return percentageOf1RM(reps + 2)
-	case Increase:
-		return percentageOf1RM(reps + 1)
-	case OneRM:
-		return percentageOf1RM(reps + 1)
-	case Lite:
-		return percentageOf1RM(reps + 4)
-	default:
-		return percentageOf1RM(reps)
-	}
+	repAdjustments := s.Goal.Adjustments()
+	return percentageOf1RM(reps + repAdjustments)
 }
 
 func (s *Sets) setSetCount() {

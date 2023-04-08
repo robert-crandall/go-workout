@@ -22,3 +22,18 @@ func (s Goal) String() string {
 	}
 	return "unknown"
 }
+
+func (s Goal) Adjustments() int {
+	switch s {
+	case Maintain:
+		return 3
+	case Increase:
+		return 2
+	case OneRM:
+		return 1
+	case Lite:
+		return 4
+	default:
+		return 0
+	}
+}
