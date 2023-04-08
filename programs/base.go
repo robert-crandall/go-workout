@@ -6,11 +6,11 @@ import (
 )
 
 type Program struct {
-	Name        string                             // Overall program name, ie "Starting Strength"
-	Explanation string                             // Test field to indicate what this is, ie "A 3x5 workout with daily progression"
-	Weeks       int                                // Weeks until a complete cycle
-	Export      bool                               // Whether to export this program or not
-	Routine     func(int) ([]string, []workoutDay) // Lists of day names and workouts
+	Name        string                                          // Overall program name, ie "Starting Strength"
+	Explanation string                                          // Test field to indicate what this is, ie "A 3x5 workout with daily progression"
+	Weeks       int                                             // Weeks until a complete cycle
+	Export      bool                                            // Whether to export this program or not
+	Routine     func(int, *ProgramSet) ([]string, []workoutDay) // Lists of day names and workouts
 }
 
 type workoutDay []workout
