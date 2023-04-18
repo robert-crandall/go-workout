@@ -19,6 +19,8 @@ func rpt_2303() Program {
 		squat := &programSet.Squat
 		deadLift := &programSet.Deadlift
 		ohp := &programSet.OHP
+		pullup := &programSet.Pullup
+		barbellRow := &programSet.BarbellRow
 
 		var workoutWeek WorkoutWeek
 
@@ -42,7 +44,7 @@ func rpt_2303() Program {
 		}
 
 		bench.AddLiftSchemes([]lifts.LiftScheme{
-			lifts.RptFourSets,
+			lifts.RptThreeSets,
 		})
 
 		squat.AddLiftSchemes([]lifts.LiftScheme{
@@ -57,64 +59,65 @@ func rpt_2303() Program {
 			lifts.ThreeByEight,
 		})
 
-		loopsPerWeek := 3
+		pullup.AddLiftSchemes([]lifts.LiftScheme{
+			lifts.ThreeByFive,
+		})
+
+		barbellRow.AddLiftSchemes([]lifts.LiftScheme{
+			lifts.ThreeByFive,
+		})
+
+		loopsPerWeek := 4
 
 		for dayNum := 1; dayNum <= loopsPerWeek; dayNum++ {
 			workoutNum := workoutNum(weeknum, dayNum, loopsPerWeek)
 
 			firstLift := squat
 			secondLift := bench
-			extraLift := deadLift
+			extraLift := barbellRow
 
 			// Next week flip them around in order to flip OHP and Deadlift
 			if workoutNum%2 == 0 {
-				firstLift = bench
-				secondLift = squat
-				extraLift = ohp
+				firstLift = deadLift
+				secondLift = ohp
+				extraLift = pullup
 			}
 
-			workoutWeek.addWorkoutDay(
-				fmt.Sprintf("%s %d", dayName, dayNum),
-				workoutDay{
-					getPrimaryLiftByGoal(*firstLift, firstLift.NextScheme(), goal),
-					getPrimaryLiftByGoal(*secondLift, secondLift.NextScheme(), goal),
-					getPrimaryLiftByGoal(*extraLift, extraLift.NextScheme(), goal),
-				},
-			)
-		}
-
-		// Custom week for One RM testing
-		if goal == sets.OneRM {
-			workoutWeek.resetWorkoutDays()
-
-			workoutWeek.addWorkoutDay(
-				fmt.Sprintf("Squat/Bench One Rep Test"),
-				workoutDay{
-					getPrimaryLiftByGoal(*squat, lifts.OneRepMaxTest, goal),
-					getPrimaryLiftByGoal(*bench, lifts.OneRepMaxTest, goal),
-				},
-			)
-
-			workoutWeek.addWorkoutDay(
-				fmt.Sprintf("Deadlift/OHP One Rep Test"),
-				workoutDay{
-					getPrimaryLiftByGoal(*deadLift, lifts.OneRepMaxTest, goal),
-					getPrimaryLiftByGoal(*ohp, lifts.OneRepMaxTest, goal),
-				},
-			)
-
-			// Throw on the optional lite day. Putting it here instead of another loop so the weekly numbers match.
-			recoveryScheme := lifts.ThreeByFive
-			recoveryGoal := sets.Lite
-			workoutWeek.addWorkoutDay(
-				fmt.Sprintf("Recovery Day"),
-				workoutDay{
-					getPrimaryLiftByGoal(*squat, recoveryScheme, recoveryGoal),
-					getPrimaryLiftByGoal(*bench, recoveryScheme, recoveryGoal),
-					getPrimaryLiftByGoal(*deadLift, recoveryScheme, recoveryGoal),
-					getPrimaryLiftByGoal(*ohp, recoveryScheme, recoveryGoal),
-				},
-			)
+			if goal != sets.OneRM {
+				workoutWeek.addWorkoutDay(
+					fmt.Sprintf("%s/%s %s %d", firstLift.Name, secondLift.Name, dayName, dayNum),
+					workoutDay{
+						getPrimaryLiftByGoal(*firstLift, firstLift.NextScheme(), goal),
+						getPrimaryLiftByGoal(*secondLift, secondLift.NextScheme(), goal),
+						getPrimaryLiftByGoal(*extraLift, extraLift.NextScheme(), goal),
+					},
+				)
+			} else {
+				// Custom week for One RM testing
+				// Real testing
+				if dayNum <= 2 {
+					workoutWeek.addWorkoutDay(
+						fmt.Sprintf("%s/%s One Rep Test", firstLift.Name, secondLift.Name),
+						workoutDay{
+							getPrimaryLiftByGoal(*firstLift, lifts.OneRepMaxTest, goal),
+							getPrimaryLiftByGoal(*secondLift, lifts.OneRepMaxTest, goal),
+							getPrimaryLiftByGoal(*extraLift, lifts.OneRepMaxTest, goal),
+						},
+					)
+				} else {
+					// Rest days
+					recoveryScheme := lifts.ThreeByFive
+					recoveryGoal := sets.Lite
+					workoutWeek.addWorkoutDay(
+						fmt.Sprintf("%s/%s Recovery", firstLift.Name, secondLift.Name),
+						workoutDay{
+							getPrimaryLiftByGoal(*firstLift, recoveryScheme, recoveryGoal),
+							getPrimaryLiftByGoal(*secondLift, recoveryScheme, recoveryGoal),
+							getPrimaryLiftByGoal(*extraLift, recoveryScheme, recoveryGoal),
+						},
+					)
+				}
+			}
 		}
 
 		return workoutWeek.getDayNames(), workoutWeek.getWorkouts()

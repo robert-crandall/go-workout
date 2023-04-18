@@ -6,17 +6,21 @@ import (
 
 // A way to keep track of desired sets and workout numbers for a given lift
 type ProgramSet struct {
-	Bench    lifts.Lift
-	Deadlift lifts.Lift
-	Squat    lifts.Lift
-	OHP      lifts.Lift
+	Bench      lifts.Lift
+	Deadlift   lifts.Lift
+	Squat      lifts.Lift
+	OHP        lifts.Lift
+	Pullup     lifts.Lift
+	BarbellRow lifts.Lift
 }
 
 func NewProgramSet() ProgramSet {
 	return ProgramSet{
-		Bench:    lifts.Bench(),
-		Deadlift: lifts.Deadlift(),
-		Squat:    lifts.Squat(),
-		OHP:      lifts.Ohp(),
+		Bench:      lifts.Bench(),
+		Deadlift:   lifts.Deadlift(),
+		Squat:      lifts.Squat(),
+		OHP:        lifts.Ohp(),
+		Pullup:     lifts.Pullup(),
+		BarbellRow: lifts.BarbellRow(),
 	}
 }
