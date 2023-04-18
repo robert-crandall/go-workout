@@ -4,7 +4,7 @@
 
 ### Week 1
 
-#### Squat/Bench Press Lite 1
+#### Squat/Bench Lite 1
 
 * Squat
   * 5 @ 78%
@@ -21,7 +21,7 @@
   * 5 @ 78%
   * 5 @ 78%
 
-#### Deadlift/Overhead Press Lite 2
+#### Deadlift/OHP Lite 2
 
 * Deadlift
   * 5 @ 78%
@@ -36,7 +36,7 @@
   * 5 @ 78%
   * 5 @ 78%
 
-#### Squat/Bench Press Lite 3
+#### Squat/Bench Lite 3
 
 * Squat
   * 5 @ 78%
@@ -53,7 +53,7 @@
   * 5 @ 78%
   * 5 @ 78%
 
-#### Deadlift/Overhead Press Lite 4
+#### Deadlift/OHP Lite 4
 
 * Deadlift
   * 5 @ 78%
@@ -70,7 +70,7 @@
 
 ### Week 2
 
-#### Squat/Bench Press Maintain 1
+#### Squat/Bench Maintain 1
 
 * Squat
   * 5 @ 81%
@@ -87,7 +87,7 @@
   * 5 @ 81%
   * 5 @ 81%
 
-#### Deadlift/Overhead Press Maintain 2
+#### Deadlift/OHP Maintain 2
 
 * Deadlift
   * 5 @ 81%
@@ -102,7 +102,7 @@
   * 5 @ 81%
   * 5 @ 81%
 
-#### Squat/Bench Press Maintain 3
+#### Squat/Bench Maintain 3
 
 * Squat
   * 5 @ 81%
@@ -119,7 +119,7 @@
   * 5 @ 81%
   * 5 @ 81%
 
-#### Deadlift/Overhead Press Maintain 4
+#### Deadlift/OHP Maintain 4
 
 * Deadlift
   * 5 @ 81%
@@ -136,7 +136,7 @@
 
 ### Week 3
 
-#### Squat/Bench Press Increase 1
+#### Squat/Bench Increase 1
 
 * Squat
   * 5 @ 83%
@@ -153,7 +153,7 @@
   * 5 @ 83%
   * 5 @ 83%
 
-#### Deadlift/Overhead Press Increase 2
+#### Deadlift/OHP Increase 2
 
 * Deadlift
   * 5 @ 83%
@@ -168,7 +168,7 @@
   * 5 @ 83%
   * 5 @ 83%
 
-#### Squat/Bench Press Increase 3
+#### Squat/Bench Increase 3
 
 * Squat
   * 5 @ 83%
@@ -185,7 +185,7 @@
   * 5 @ 83%
   * 5 @ 83%
 
-#### Deadlift/Overhead Press Increase 4
+#### Deadlift/OHP Increase 4
 
 * Deadlift
   * 5 @ 83%
@@ -202,7 +202,7 @@
 
 ### Week 4
 
-#### Squat/Bench Press One Rep Test
+#### Squat/Bench One Rep Test
 
 * Squat
   * 5+ @ 86%
@@ -217,7 +217,7 @@
   * 3+ @ 92%
   * 1+ @ 97%
 
-#### Deadlift/Overhead Press One Rep Test
+#### Deadlift/OHP One Rep Test
 
 * Deadlift
   * 5+ @ 86%
@@ -232,7 +232,7 @@
   * 3+ @ 92%
   * 1+ @ 97%
 
-#### Squat/Bench Press Recovery
+#### Squat/Bench Recovery
 
 * Squat
   * 5 @ 78%
@@ -247,7 +247,7 @@
   * 5 @ 78%
   * 5 @ 78%
 
-#### Deadlift/Overhead Press Recovery
+#### Deadlift/OHP Recovery
 
 * Deadlift
   * 5 @ 78%

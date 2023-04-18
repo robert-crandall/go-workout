@@ -85,7 +85,7 @@ func rpt_2303() Program {
 
 			if goal != sets.OneRM {
 				workoutWeek.addWorkoutDay(
-					fmt.Sprintf("%s/%s %s %d", firstLift.Name, secondLift.Name, dayName, dayNum),
+					fmt.Sprintf("%s/%s %s %d", firstLift.ShortName(), secondLift.ShortName(), dayName, dayNum),
 					workoutDay{
 						getPrimaryLiftByGoal(*firstLift, firstLift.NextScheme(), goal),
 						getPrimaryLiftByGoal(*secondLift, secondLift.NextScheme(), goal),
@@ -97,7 +97,7 @@ func rpt_2303() Program {
 				// Real testing
 				if dayNum <= 2 {
 					workoutWeek.addWorkoutDay(
-						fmt.Sprintf("%s/%s One Rep Test", firstLift.Name, secondLift.Name),
+						fmt.Sprintf("%s/%s One Rep Test", firstLift.ShortName(), secondLift.ShortName()),
 						workoutDay{
 							getPrimaryLiftByGoal(*firstLift, lifts.OneRepMaxTest, goal),
 							getPrimaryLiftByGoal(*secondLift, lifts.OneRepMaxTest, goal),
@@ -109,7 +109,7 @@ func rpt_2303() Program {
 					recoveryScheme := lifts.ThreeByFive
 					recoveryGoal := sets.Lite
 					workoutWeek.addWorkoutDay(
-						fmt.Sprintf("%s/%s Recovery", firstLift.Name, secondLift.Name),
+						fmt.Sprintf("%s/%s Recovery", firstLift.ShortName(), secondLift.ShortName()),
 						workoutDay{
 							getPrimaryLiftByGoal(*firstLift, recoveryScheme, recoveryGoal),
 							getPrimaryLiftByGoal(*secondLift, recoveryScheme, recoveryGoal),

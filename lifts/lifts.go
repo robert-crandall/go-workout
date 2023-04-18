@@ -19,6 +19,7 @@ const (
 func Bench() Lift {
 	return Lift{
 		Name:       "Bench Press",
+		Shortname:  "Bench",
 		ExerciseID: LiftBenchID,
 		Target:     TargetUpper,
 	}
@@ -27,6 +28,7 @@ func Bench() Lift {
 func Ohp() Lift {
 	return Lift{
 		Name:       "Overhead Press",
+		Shortname:  "OHP",
 		ExerciseID: LiftOHPID,
 		Target:     TargetUpper,
 	}
