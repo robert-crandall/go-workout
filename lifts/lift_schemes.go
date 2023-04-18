@@ -11,6 +11,7 @@ const (
 	FiveByFive LiftScheme = iota
 	ThreeByFive
 	ThreeByEight
+	RptThreeSets
 	RptFourSets
 	RptFiveSets
 	OneRepMaxTest
@@ -24,6 +25,8 @@ func (s LiftScheme) String() string {
 		return "3x5"
 	case ThreeByEight:
 		return "3x8"
+	case RptThreeSets:
+		return "RPT"
 	case RptFourSets:
 		return "RPT"
 	case RptFiveSets:
@@ -36,7 +39,7 @@ func (s LiftScheme) String() string {
 
 func (s LiftScheme) IsRPT() bool {
 	switch s {
-	case RptFourSets, RptFiveSets:
+	case RptThreeSets, RptFourSets, RptFiveSets:
 		return true
 	}
 	return false
@@ -54,7 +57,7 @@ func (s LiftScheme) Sets() int {
 	switch s {
 	case FiveByFive, RptFiveSets:
 		return 5
-	case ThreeByFive, ThreeByEight, OneRepMaxTest:
+	case RptThreeSets, ThreeByFive, ThreeByEight, OneRepMaxTest:
 		return 3
 	case RptFourSets:
 		return 4
