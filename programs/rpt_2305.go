@@ -114,8 +114,8 @@ func rpt_2305() Program {
 				workoutWeek.addWorkoutDay(
 					fmt.Sprintf("%s/%s One Rep Test", firstLift.ShortName(), bench.ShortName()),
 					workoutDay{
-						getPrimaryLiftByGoal(*squat, scheme, goal),
-						getPrimaryLiftByGoal(*bench, scheme, goal),
+						getPrimaryLiftByGoal(*firstLift, scheme, goal),
+						getPrimaryLiftByGoal(*secondLift, scheme, goal),
 					},
 				)
 			}
