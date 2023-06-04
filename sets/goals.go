@@ -26,13 +26,13 @@ func (s Goal) String() string {
 func (s Goal) Adjustments() int {
 	switch s {
 	case Maintain:
-		return 2
-	case Increase:
-		return 1
-	case OneRM:
-		return 1
-	case Lite:
 		return 3
+	case Increase:
+		return 2
+	case OneRM:
+		return 2
+	case Lite:
+		return 4
 	default:
 		return 0
 	}

@@ -56,7 +56,7 @@ func rpt_2305() Program {
 		})
 
 		ohp.AddLiftSchemes([]lifts.LiftScheme{
-			lifts.ThreeByEight,
+			lifts.RptThreeSets,
 		})
 
 		pullup.AddLiftSchemes([]lifts.LiftScheme{
